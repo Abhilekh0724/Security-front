@@ -42,7 +42,7 @@ const Loginpage = () => {
           boxShadow: '0px 0px 10px 0px rgba(0,0,0,0.3)',
         }}
       >
-        <h2 style={{ marginBottom: '20px', color: '#007bff' }}>Login</h2>
+        <img src="assets/images/vend.png" alt="Logo" style={{ width: '100px', marginBottom: '20px' }} />
         <form onSubmit={handleSubmit}>
           <input
             type="email"
