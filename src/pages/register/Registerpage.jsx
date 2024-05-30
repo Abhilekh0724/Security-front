@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
-import { registerUserApi } from '../../api/Api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
@@ -8,17 +10,16 @@ const Registerpage = () => {
   const [lastName, setLastName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const data = { firstName, lastName, email, password };
-    registerUserApi(data)
-      .then(response => {
-        console.log(response.data); 
-      })
-      .catch(error => {
-        console.error(error);
-      });
+
+    // Simulate registration success
+    setTimeout(() => {
+      toast.success('Registration successful! Redirecting to login...');
+      navigate('/login');
+    }, 2000); // Redirect after 2 seconds
   };
 
   return (
@@ -92,10 +93,11 @@ const Registerpage = () => {
         <div style={{ textAlign: 'center' }}>
           <a href="/login" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none' }}>Already have an account? Login</a>
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
 };
 
 export default Registerpage;
-
+  

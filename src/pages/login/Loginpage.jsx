@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
-import { loginUserApi } from '../../api/Api';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { useNavigate } from 'react-router-dom';
 
 const Loginpage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const navigate = useNavigate();
 
   const validate = () => {
     let isValid = true;
@@ -34,22 +35,11 @@ const Loginpage = () => {
       return;
     }
 
-    const data = { email, password };
-    loginUserApi(data)
-      .then(response => {
-        if (response.data.success === false) {
-          toast.error(response.data.message);
-        } else {
-          toast.success(response.data.message);
-          localStorage.setItem('token', response.data.token);
-          const userData = JSON.stringify(response.data.userData);
-          localStorage.setItem('user', userData);
-        }
-      })
-      .catch(error => {
-        toast.error('An error occurred. Please try again.');
-        console.error(error);
-      });
+    // Simulate a successful login
+    setTimeout(() => {
+      toast.success('Login successful! Redirecting to home page...');
+      navigate('/'); // Redirect to home page
+    }, 2000); // Redirect after 2 seconds
   };
 
   return (

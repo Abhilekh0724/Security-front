@@ -13,7 +13,7 @@ const Navbar = () => {
   return (
     <>
       {showNavbar && (
-        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+        <nav className="navbar navbar-expand-lg bg-dark">
           <div className="container-fluid d-flex justify-content-between align-items-center">
             {/* Your logo here */}
             <Link className="navbar-brand" to="#">

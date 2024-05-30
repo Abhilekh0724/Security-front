@@ -2,7 +2,7 @@ import React from 'react';
 
 const VenueWebsite = () => {
   return (
-    <div style={{ fontFamily: 'Arial, sans-serif', color: '#333' }}>
+    <div style={{ fontFamily: 'Arial, sans-serif', color: '#333', backgroundColor: 'lightcoral' }}>
       <header style={{ padding: '20px', backgroundColor: '#f8f8f8', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
           <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
@@ -15,7 +15,7 @@ const VenueWebsite = () => {
           </div>
           <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
             <img 
-              src="celebration-halls.jpg" 
+              src="assets/images/halls.jpg" 
               alt="Celebration Halls" 
               style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
             />
@@ -23,7 +23,7 @@ const VenueWebsite = () => {
           </div>
           <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
             <img 
-              src="photographers.jpg" 
+              src="assets/images/photo.jpg" 
               alt="Photographers" 
               style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
             />
@@ -31,7 +31,7 @@ const VenueWebsite = () => {
           </div>
           <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
             <img 
-              src="make-up.jpg" 
+              src="assets/images/make.jpg" 
               alt="Make Up" 
               style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
             />
@@ -43,7 +43,7 @@ const VenueWebsite = () => {
         <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>RECENTLY VIEWED</h2>
         <div style={{ display: 'flex', justifyContent: 'space-around' }}>
           <div style={{ width: '30%', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-            <img src="beach-side-venue.jpg" alt="Beach side venue" style={{ width: '100%', borderRadius: '10px' }} />
+            <img src="assets/images/beach.jpg" alt="Beach side venue" style={{ width: '100%', borderRadius: '10px' }} />
             <h3>Beach Side Venue</h3>
             <p>Stunning beachfront venue for a breathtaking romantic celebration</p>
             <p>Starting from:</p>
@@ -64,7 +64,7 @@ const VenueWebsite = () => {
             </button>
           </div>
           <div style={{ width: '30%', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-            <img src="classic-venue.jpg" alt="Classic Venue" style={{ width: '100%', borderRadius: '10px' }} />
+            <img src="assets/images/abc.jpg" alt="Classic Venue" style={{ width: '100%', borderRadius: '10px' }} />
             <h3>Classic Venue</h3>
             <p>Elegant classic indoor ballroom venue with string lights</p>
             <p>Starting from:</p>
@@ -85,7 +85,7 @@ const VenueWebsite = () => {
             </button>
           </div>
           <div style={{ width: '30%', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-            <img src="rustic-venue.jpg" alt="Rustic Venue" style={{ width: '100%', borderRadius: '10px' }} />
+            <img src="assets/images/rus.jpg" alt="Rustic Venue" style={{ width: '100%', borderRadius: '10px' }} />
             <h3>Rustic Venue</h3>
             <p>Charming rustic outdoor venue in the woods, treelined paths</p>
             <p>Starting from:</p>
