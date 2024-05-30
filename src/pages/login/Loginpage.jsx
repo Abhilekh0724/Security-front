@@ -1,20 +1,53 @@
 import React, { useState } from 'react';
 import { loginUserApi } from '../../api/Api';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 
 const Loginpage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const validate = () => {
+    let isValid = true;
+    setEmailError('');
+    setPasswordError('');
+
+    if (email === '' || !email.includes('@')) {
+      setEmailError('Email is empty or invalid');
+      isValid = false;
+    }
+    if (password.trim() === '') {
+      setPasswordError('Please enter password');
+      isValid = false;
+    }
+    return isValid;
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validate()) {
+      return;
+    }
+
     const data = { email, password };
     loginUserApi(data)
       .then(response => {
-        console.log(response.data); 
+        if (response.data.success === false) {
+          toast.error(response.data.message);
+        } else {
+          toast.success(response.data.message);
+          localStorage.setItem('token', response.data.token);
+          const userData = JSON.stringify(response.data.userData);
+          localStorage.setItem('user', userData);
+        }
       })
       .catch(error => {
+        toast.error('An error occurred. Please try again.');
         console.error(error);
       });
   };
@@ -51,6 +84,7 @@ const Loginpage = () => {
             onChange={(e) => setEmail(e.target.value)}
             style={{ width: '100%', marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
           />
+          {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
           <input
             type="password"
             placeholder="Password"
@@ -58,6 +92,7 @@ const Loginpage = () => {
             onChange={(e) => setPassword(e.target.value)}
             style={{ width: '100%', marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
           />
+          {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
           <a href="/forgot-password" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none', marginBottom: '20px', display: 'block' }}>Forgot password?</a>
           <button
             type="submit"
@@ -66,7 +101,6 @@ const Loginpage = () => {
             Login
           </button>
         </form>
-        {/* Add Google login button */}
         <button style={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px', backgroundColor: '#fff', color: '#000', border: '1px solid #ccc', borderRadius: '5px', cursor: 'pointer', fontSize: '16px', marginBottom: '20px' }}>
           <FontAwesomeIcon icon={faGoogle} style={{ fontSize: '20px', marginRight: '10px' }} />
           Login with Google
@@ -75,6 +109,7 @@ const Loginpage = () => {
           <a href="/register" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none' }}>Don't have an ID? Register</a>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 };

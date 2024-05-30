@@ -5,10 +5,38 @@ const VenueWebsite = () => {
     <div style={{ fontFamily: 'Arial, sans-serif', color: '#333' }}>
       <header style={{ padding: '20px', backgroundColor: '#f8f8f8', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)' }}>
         <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
-          <div style={{ margin: '0 20px', cursor: 'pointer', fontSize: '18px' }}>Wedding Venue</div>
-          <div style={{ margin: '0 20px', cursor: 'pointer', fontSize: '18px' }}>Celebration Halls</div>
-          <div style={{ margin: '0 20px', cursor: 'pointer', fontSize: '18px' }}>Photographers</div>
-          <div style={{ margin: '0 20px', cursor: 'pointer', fontSize: '18px' }}>Make Up</div>
+          <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
+            <img 
+              src="assets/images/wed.jpg" 
+              alt="Wedding Venue" 
+              style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
+            />
+            <div>Wedding Venue</div>
+          </div>
+          <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
+            <img 
+              src="celebration-halls.jpg" 
+              alt="Celebration Halls" 
+              style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
+            />
+            <div>Celebration Halls</div>
+          </div>
+          <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
+            <img 
+              src="photographers.jpg" 
+              alt="Photographers" 
+              style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
+            />
+            <div>Photographers</div>
+          </div>
+          <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
+            <img 
+              src="make-up.jpg" 
+              alt="Make Up" 
+              style={{ width: '60px', height: '60px', borderRadius: '50%' }} 
+            />
+            <div>Make Up</div>
+          </div>
         </div>
       </header>
       <div style={{ padding: '40px', backgroundColor: '#f2f2f2' }}>

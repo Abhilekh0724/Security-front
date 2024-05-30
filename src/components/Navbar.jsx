@@ -8,7 +8,7 @@ const Navbar = () => {
   const user = JSON.parse(localStorage.getItem("user"));
 
   // Conditionally render the navbar based on the current route
-  const showNavbar = location.pathname !== '/login';
+  const showNavbar = location.pathname !== '/login' && location.pathname !== '/register';
 
   return (
     <>
@@ -19,7 +19,7 @@ const Navbar = () => {
             <Link className="navbar-brand" to="#">
               <img src="assets/images/vend.png" alt="Your Logo" style={{ maxWidth: '70px' }} />
             </Link>
-            <div style={{ flex: 2, textAlign: 'center' }}>
+            <div style={{ flex: 20, textAlign: 'center' }}>
               <form className="d-flex" role="search" style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
                 <input
                   className="form-control me-2"
