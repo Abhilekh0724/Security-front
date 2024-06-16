@@ -1,6 +1,6 @@
 import React from 'react';
 
-const VenueWebsite = () => {
+const Homepage = () => {
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', color: '#333', backgroundColor: 'lightcoral' }}>
       <header style={{ padding: '20px', backgroundColor: '#f8f8f8', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)' }}>
@@ -111,4 +111,4 @@ const VenueWebsite = () => {
   );
 };
 
-export default VenueWebsite;
+export default Homepage;

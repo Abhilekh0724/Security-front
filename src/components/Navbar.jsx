@@ -1,34 +1,48 @@
-import React from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCog, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
+  const [searchQuery, setSearchQuery] = useState("");
 
-  // Conditionally render the navbar based on the current route
-  const showNavbar = location.pathname !== '/login' && location.pathname !== '/register';
+  const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
+
+  const handleLogout = () => {
+    localStorage.removeItem("user");
+    navigate("/login");
+  };
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?query=${searchQuery}`);
+    }
+  };
 
   return (
     <>
       {showNavbar && (
         <nav className="navbar navbar-expand-lg bg-dark">
           <div className="container-fluid d-flex justify-content-between align-items-center">
-            {/* Your logo here */}
-            <Link className="navbar-brand" to="#">
-              <img src="assets/images/vend.png" alt="Your Logo" style={{ maxWidth: '70px' }} />
+            <Link className="navbar-brand" to="/homepage">
+              <img src="/assets/images/vend.png" alt="Your Logo" style={{ maxWidth: "70px" }} />
             </Link>
-            <div style={{ flex: 20, textAlign: 'center' }}>
-              <form className="d-flex" role="search" style={{ maxWidth: '600px', margin: '0 auto', width: '100%' }}>
+            <div style={{ flex: 20, textAlign: "center" }}>
+              <form className="d-flex" role="search" style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }} onSubmit={handleSearch}>
                 <input
                   className="form-control me-2"
                   type="search"
                   placeholder="Search"
                   aria-label="Search"
-                  style={{ borderRadius: '20px', padding: '10px' }}
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  style={{ borderRadius: "20px", padding: "10px" }}
                 />
-                <button className="btn btn-outline-success" type="submit" style={{ borderRadius: '20px', padding: '10px 15px' }}>
+                <button className="btn btn-outline-success" type="submit" style={{ borderRadius: "20px", padding: "10px 15px" }}>
                   <FontAwesomeIcon icon={faSearch} />
                 </button>
               </form>
@@ -46,22 +60,22 @@ const Navbar = () => {
                   </button>
                   <ul className="dropdown-menu dropdown-menu-end">
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/profile">
                         <FontAwesomeIcon icon={faUser} className="me-2" />
                         Profile
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <Link className="dropdown-item" to="/settings">
                         <FontAwesomeIcon icon={faCog} className="me-2" />
-                        Setting
+                        Settings
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="#">
+                      <button className="dropdown-item" onClick={handleLogout}>
                         <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
                         Logout
-                      </Link>
+                      </button>
                     </li>
                   </ul>
                 </div>

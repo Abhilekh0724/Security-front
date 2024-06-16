@@ -17,5 +17,11 @@ export const registerUserApi=(data)=> Api.post('/api/user/create',data);
 //creating login api
 export const loginUserApi=(data)=>Api.post('/api/user/login',data)
 
+export const uploadProfilePicApi = (data) =>
+    Api.post('/api/profile/uploadProfilePic', data, {
+      headers: {
+        'Content-Type': 'multipart/form-data'
+      }
+    });
 
 

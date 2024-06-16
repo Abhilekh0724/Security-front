@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
+import { registerUserApi } from '../../api/Api';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 
 const Registerpage = () => {
   const [firstName, setFirstName] = useState('');
@@ -12,14 +12,60 @@ const Registerpage = () => {
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
 
+  const handleFirstNameChange = (e) => {
+    setFirstName(e.target.value);
+  };
+
+  const handleLastNameChange = (e) => {
+    setLastName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handlePasswordChange = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const validate = () => {
+    let isValid = true;
+
+    // Implement your validation rules here
+
+    return isValid;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Simulate registration success
-    setTimeout(() => {
-      toast.success('Registration successful! Redirecting to login...');
-      navigate('/login');
-    }, 2000); // Redirect after 2 seconds
+    if (!validate()) {
+      return;
+    }
+
+    const data = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      password: password,
+    };
+
+    registerUserApi(data)
+      .then((res) => {
+        console.log('Registration Response:', res);
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success('Registration successful! Redirecting to login...');
+          setTimeout(() => {
+            navigate('/login');
+          }, 2000); // Redirect after 2 seconds
+        }
+      })
+      .catch((error) => {
+        console.error('Registration Error:', error);
+        toast.error('An error occurred while registering. Please try again later.');
+      });
   };
 
   return (
@@ -52,14 +98,14 @@ const Registerpage = () => {
               type="text"
               placeholder="First Name"
               value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
+              onChange={handleFirstNameChange}
               style={{ width: '48%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
             />
             <input
               type="text"
               placeholder="Last Name"
               value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
+              onChange={handleLastNameChange}
               style={{ width: '48%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
             />
           </div>
@@ -67,14 +113,14 @@ const Registerpage = () => {
             type="email"
             placeholder="Email"
             value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
             style={{ width: '100%', marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
           />
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
             style={{ width: '100%', marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
           />
           <button
@@ -93,11 +139,10 @@ const Registerpage = () => {
         <div style={{ textAlign: 'center' }}>
           <a href="/login" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none' }}>Already have an account? Login</a>
         </div>
-        <ToastContainer />
       </div>
+      <ToastContainer />
     </div>
   );
 };
 
 export default Registerpage;
-  

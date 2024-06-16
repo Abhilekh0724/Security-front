@@ -1,18 +1,19 @@
 import React, { useState } from 'react';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faGoogle } from "@fortawesome/free-brands-svg-icons";
 import { useNavigate } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import { loginUserApi } from '../../api/Api'; // Import loginUserApi function
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faGoogle } from '@fortawesome/free-brands-svg-icons';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Loginpage = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const navigate = useNavigate();
 
-  const validate = () => {
+  const validation = () => {
     let isValid = true;
     setEmailError('');
     setPasswordError('');
@@ -21,25 +22,45 @@ const Loginpage = () => {
       setEmailError('Email is empty or invalid');
       isValid = false;
     }
+
     if (password.trim() === '') {
       setPasswordError('Please enter password');
       isValid = false;
     }
+
     return isValid;
   };
 
-  const handleSubmit = (e) => {
+  const handleLogin = (e) => {
     e.preventDefault();
 
-    if (!validate()) {
+    if (!validation()) {
       return;
     }
 
-    // Simulate a successful login
-    setTimeout(() => {
-      toast.success('Login successful! Redirecting to home page...');
-      navigate('/'); // Redirect to home page
-    }, 2000); // Redirect after 2 seconds
+    const data = {
+      email: email,
+      password: password,
+    };
+
+    loginUserApi(data)
+      .then((res) => {
+        console.log('Login Response:', res);
+        if (res.data.success === false) {
+          toast.error(res.data.message);
+        } else {
+          toast.success('Login successful');
+          localStorage.setItem('token', res.data.token);
+          localStorage.setItem('user', JSON.stringify(res.data.userData));
+          setTimeout(() => {
+            navigate('/homepage'); // Redirect to homepage after a short delay
+          }, 2000); // Adjust the delay as needed
+        }
+      })
+      .catch((error) => {
+        console.error('Login Error:', error);
+        toast.error('An error occurred while logging in. Please try again later.');
+      });
   };
 
   return (
@@ -66,24 +87,27 @@ const Loginpage = () => {
         }}
       >
         <img src="assets/images/vend.png" alt="Logo" style={{ width: '100px', marginBottom: '20px' }} />
-        <form onSubmit={handleSubmit}>
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            style={{ width: '100%', marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
-          />
-          {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            style={{ width: '100%', marginBottom: '20px', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
-          />
-          {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
-          <a href="/forgot-password" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none', marginBottom: '20px', display: 'block' }}>Forgot password?</a>
+        <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: '20px' }}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
+            />
+            {emailError && <p style={{ color: 'red' }}>{emailError}</p>}
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              style={{ width: '100%', padding: '10px', border: '1px solid #ccc', borderRadius: '5px', fontSize: '16px' }}
+            />
+            {passwordError && <p style={{ color: 'red' }}>{passwordError}</p>}
+          </div>
           <button
             type="submit"
             style={{ width: '100%', padding: '10px', backgroundColor: '#007bff', color: '#fff', border: 'none', borderRadius: '5px', cursor: 'pointer', fontSize: '16px' }}
@@ -91,11 +115,12 @@ const Loginpage = () => {
             Login
           </button>
         </form>
-        <button style={{ width:'100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px', backgroundColor: '#fff', color: '#000', border: '1px solid #ccc', borderRadius: '5px', cursor: 'pointer', fontSize: '16px', marginBottom: '20px' }}>
+        <button style={{ width: '100%', display: 'flex', justifyContent: 'center', alignItems: 'center', padding: '10px', backgroundColor: '#fff', color: '#000', border: '1px solid #ccc', borderRadius: '5px', cursor: 'pointer', fontSize: '16px', marginBottom: '20px' }}>
           <FontAwesomeIcon icon={faGoogle} style={{ fontSize: '20px', marginRight: '10px' }} />
           Login with Google
         </button>
         <div style={{ textAlign: 'center' }}>
+          <a href="/forgot-password" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none', marginBottom: '20px', display: 'block' }}>Forgot password?</a>
           <a href="/register" style={{ fontSize: '14px', color: '#007bff', textDecoration: 'none' }}>Don't have an ID? Register</a>
         </div>
       </div>
