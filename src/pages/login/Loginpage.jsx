@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { loginUserApi } from '../../api/Api'; // Import loginUserApi function
+import { loginUserApi } from '../../api/Api';// Import loginUserApi function
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';

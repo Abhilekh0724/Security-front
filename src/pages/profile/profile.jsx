@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { uploadProfilePicApi } from '../../api/Api';
+import axios from 'axios';
 import { toast } from 'react-toastify';
 
 const Profile = () => {
@@ -14,11 +14,15 @@ const Profile = () => {
   const handleUpload = async () => {
     if (newProfilePic) {
       const formData = new FormData();
-      formData.append('profilePic', newProfilePic);
-      formData.append('userId', user._id);
+      formData.append('profilePic', newProfilePic); // 'profilePic' should match the field name expected by backend
+      formData.append('userId', user._id); // Assuming userId is needed by backend
 
       try {
-        const response = await uploadProfilePicApi(formData);
+        const response = await axios.post('http://localhost:5500/api/profile/uploadProfilePic', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
 
         if (response.data.success) {
           setProfilePic(response.data.profilePic);
@@ -46,7 +50,7 @@ const Profile = () => {
         <div className="card-body">
           <div className="d-flex align-items-center">
             <img
-              src={profilePic || '/assets/images/default-avatar.png'}
+              src={profilePic ? `http://localhost:5500${profilePic}` : '/assets/images/default-avatar.png'}
               alt="Profile"
               style={{ width: '100px', height: '100px', borderRadius: '50%', marginRight: '20px' }}
             />
