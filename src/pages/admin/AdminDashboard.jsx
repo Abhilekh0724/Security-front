@@ -1,81 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { toast } from "react-toastify";
 
-const AdminDashboard = () => {
-  const [productName, setProductName] = useState("");
-  const [productPrice, setProductPrice] = useState("");
-  const [productCategory, setProductCategory] = useState("");
-  const [productDescription, setProductDescription] = useState("");
+const AdminCategoryDashboard = () => {
+  const [categories, setCategories] = useState([]);
+  const [categoryName, setCategoryName] = useState("");
 
-  // image state
-  const [productImage, setProductImage] = useState(null);
-  const [previewImage, setPreviewImage] = useState(null);
+  useEffect(() => {
+    // Fetch categories from the API
+    fetchCategories();
+  }, []);
 
-  // function to upload and preview image
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
-    setProductImage(file);
-    setPreviewImage(URL.createObjectURL(file));
+  const fetchCategories = () => {
+    // Simulating an API call
+    const categoriesData = [
+      { _id: "1", name: "Venue" },
+      { _id: "2", name: "Photographer" },
+      { _id: "3", name: "Makeup Artist" },
+      { _id: "4", name: "Celebration Halls" },
+    ];
+    setCategories(categoriesData);
   };
 
-  // handle submit
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(
-      productName,
-      productPrice,
-      productCategory,
-      productDescription,
-      productImage
-    );
-
-    // form data preparation
-    const formData = new FormData();
-    formData.append("productName", productName);
-    formData.append("productPrice", productPrice);
-    formData.append("productCategory", productCategory);
-    formData.append("productDescription", productDescription);
-    formData.append("productImage", previewImage);
-
-    // API call commented out
-    // createProductApi(formData);
+    const newCategory = { _id: Date.now().toString(), name: categoryName };
+    setCategories([...categories, newCategory]);
+    setCategoryName("");
+    toast.success("Category added successfully");
   };
 
   return (
     <div className="container">
+      <h2>Admin Category Dashboard</h2>
       <div className="d-flex justify-content-between mt-2">
-        <h2>Admin Dashboard</h2>
+        <form onSubmit={handleSubmit}>
+          <label>Category Name</label>
+          <input
+            onChange={(e) => setCategoryName(e.target.value)}
+            type="text"
+            className="form-control"
+            placeholder="Enter Category Name"
+            value={categoryName}
+            required
+          />
+          <button type="submit" className="btn btn-primary mt-2">
+            Add Category
+          </button>
+        </form>
       </div>
+
       <table className="table mt-2">
         <thead className="table-dark">
           <tr>
-            <th>Product Image</th>
-            <th>Product Name</th>
-            <th>Product Price</th>
-            <th>Product Description</th>
-            <th>Product Category</th>
-            <th>Actions</th>
+            <th>Category Name</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>
-              <img src="http://picsum.photos/50" alt="" />
-            </td>
-            <td>Flower</td>
-            <td>122</td>
-            <td>Flower for you</td>
-            <td>Flower</td>
-            <td>
-              <div className="btn-group" role="group">
-                <button className="btn btn-success">Edit</button>
-                <button className="btn btn-danger">Delete</button>
-              </div>
-            </td>
-          </tr>
+          {categories.map((category) => (
+            <tr key={category._id}>
+              <td>{category.name}</td>
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>
   );
 };
 
-export default AdminDashboard;
+export default AdminCategoryDashboard;
