@@ -3,15 +3,13 @@ import { toast } from "react-toastify";
 
 const AdminCategoryDashboard = () => {
   const [categories, setCategories] = useState([]);
-  const [categoryName, setCategoryName] = useState("");
+  const [categoryData, setCategoryData] = useState({});
 
   useEffect(() => {
-    // Fetch categories from the API
     fetchCategories();
   }, []);
 
   const fetchCategories = () => {
-    // Simulating an API call
     const categoriesData = [
       { _id: "1", name: "Venue" },
       { _id: "2", name: "Photographer" },
@@ -21,44 +19,71 @@ const AdminCategoryDashboard = () => {
     setCategories(categoriesData);
   };
 
-  const handleSubmit = (e) => {
+  const handleCategoryDataChange = (categoryId, field, value) => {
+    setCategoryData((prevData) => ({
+      ...prevData,
+      [categoryId]: {
+        ...prevData[categoryId],
+        [field]: value,
+      },
+    }));
+  };
+
+  const handleCategoryFormSubmit = (e, categoryId) => {
     e.preventDefault();
-    const newCategory = { _id: Date.now().toString(), name: categoryName };
-    setCategories([...categories, newCategory]);
-    setCategoryName("");
-    toast.success("Category added successfully");
+    const data = categoryData[categoryId];
+    // Perform the API call to save the data
+    toast.success(`${categories.find((cat) => cat._id === categoryId).name} data saved successfully`);
   };
 
   return (
     <div className="container">
       <h2>Admin Category Dashboard</h2>
-      <div className="d-flex justify-content-between mt-2">
-        <form onSubmit={handleSubmit}>
-          <label>Category Name</label>
-          <input
-            onChange={(e) => setCategoryName(e.target.value)}
-            type="text"
-            className="form-control"
-            placeholder="Enter Category Name"
-            value={categoryName}
-            required
-          />
-          <button type="submit" className="btn btn-primary mt-2">
-            Add Category
-          </button>
-        </form>
-      </div>
 
       <table className="table mt-2">
         <thead className="table-dark">
           <tr>
             <th>Category Name</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           {categories.map((category) => (
             <tr key={category._id}>
               <td>{category.name}</td>
+              <td>
+                <button
+                  className="btn btn-info"
+                  type="button"
+                  data-bs-toggle="collapse"
+                  data-bs-target={`#collapseForm-${category._id}`}
+                  aria-expanded="false"
+                  aria-controls={`collapseForm-${category._id}`}
+                >
+                  Add Info
+                </button>
+                <div className="collapse mt-2" id={`collapseForm-${category._id}`}>
+                  <form onSubmit={(e) => handleCategoryFormSubmit(e, category._id)}>
+                    <label>Information</label>
+                    <textarea
+                      onChange={(e) => handleCategoryDataChange(category._id, "info", e.target.value)}
+                      className="form-control"
+                      value={categoryData[category._id]?.info || ""}
+                      placeholder="Enter information"
+                      required
+                    ></textarea>
+                    <label className="mt-2">Photo</label>
+                    <input
+                      onChange={(e) => handleCategoryDataChange(category._id, "photo", e.target.files[0])}
+                      type="file"
+                      className="form-control"
+                    />
+                    <button type="submit" className="btn btn-success mt-2">
+                      Save
+                    </button>
+                  </form>
+                </div>
+              </td>
             </tr>
           ))}
         </tbody>
