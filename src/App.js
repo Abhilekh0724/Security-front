@@ -11,8 +11,8 @@ import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import CelebrationHalls from "./pages/category/CelebrationHalls";
 import Photographer from "./pages/category/Photographer";
-import MakeupArtist from "./pages/category/MakeupArtist";
 import Venue from "./pages/category/Venue";
+import MakeupArtist from "./pages/category/MakeupArtist";
 
 function App() {
   return (
@@ -28,7 +28,6 @@ function App() {
         <Route path="/category" element={<Photographer />} />
         <Route path="/category" element={<MakeupArtist />} />
         <Route path="/category" element={<Venue />} />
-
         <Route path="/nabbar" element={<Navbar />} /> 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/login" element={<Loginpage />} />
