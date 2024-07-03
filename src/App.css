@@ -1,0 +1,12 @@
+/* CSS for Dark Mode */
+body.dark-mode {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  
+  .navbar-dark .navbar-brand,
+  .navbar-dark .navbar-nav .nav-link,
+  .navbar-dark .navbar-toggler {
+    color: rgba(255, 255, 255, 0.8);
+  }
+  

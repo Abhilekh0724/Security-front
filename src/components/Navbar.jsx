@@ -1,15 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCog, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCog, faSignOutAlt, faSearch, faMoon, faSun } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("user"));
   const [searchQuery, setSearchQuery] = useState("");
+  const [darkMode, setDarkMode] = useState(false);
 
   const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
+
+  useEffect(() => {
+    const savedMode = localStorage.getItem("darkMode") === "true";
+    setDarkMode(savedMode);
+    if (savedMode) {
+      document.body.classList.add("dark-mode");
+    } else {
+      document.body.classList.remove("dark-mode");
+    }
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -23,10 +34,16 @@ const Navbar = () => {
     }
   };
 
+  const toggleDarkMode = () => {
+    setDarkMode(!darkMode);
+    localStorage.setItem("darkMode", !darkMode);
+    document.body.classList.toggle("dark-mode");
+  };
+
   return (
     <>
       {showNavbar && (
-        <nav className="navbar navbar-expand-lg bg-dark">
+        <nav className={`navbar navbar-expand-lg ${darkMode ? "navbar-dark bg-dark" : "navbar-light bg-light"}`}>
           <div className="container-fluid d-flex justify-content-between align-items-center">
             <Link className="navbar-brand" to="/homepage">
               <img src="/assets/images/vend.png" alt="Your Logo" style={{ maxWidth: "70px" }} />
@@ -70,6 +87,12 @@ const Navbar = () => {
                         <FontAwesomeIcon icon={faCog} className="me-2" />
                         Settings
                       </Link>
+                    </li>
+                    <li>
+                      <button className="dropdown-item" onClick={toggleDarkMode}>
+                        <FontAwesomeIcon icon={darkMode ? faSun : faMoon} className="me-2" />
+                        {darkMode ? "Light Mode" : "Dark Mode"}
+                      </button>
                     </li>
                     <li>
                       <button className="dropdown-item" onClick={handleLogout}>
