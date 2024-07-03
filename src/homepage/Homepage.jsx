@@ -13,7 +13,7 @@ const Homepage = () => {
             />
             <div>Wedding Venue</div>
           </div>
-          <div style={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
+          <div linstyle={{ margin: '0 20px', cursor: 'pointer', textAlign: 'center', fontSize: '18px' }}>
             <img 
               src="assets/images/halls.jpg" 
               alt="Celebration Halls" 
