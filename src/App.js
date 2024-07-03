@@ -9,6 +9,10 @@ import Profile from "./pages/profile/profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import CelebrationHalls from "./pages/category/CelebrationHalls";
+import Photographer from "./pages/category/Photographer";
+import MakeupArtist from "./pages/category/MakeupArtist";
+import Venue from "./pages/category/Venue";
 
 function App() {
   return (
@@ -19,7 +23,12 @@ function App() {
       <Routes> 
         <Route path="/homepage" element={<Homepage />} /> 
         <Route path="/profile" element={<Profile />} /> 
-        <Route path="/searchpage" element={<SearchResults />} /> 
+        <Route path="/searchpage" element={<SearchResults />} />
+        <Route path="/category" element={<CelebrationHalls />} />
+        <Route path="/category" element={<Photographer />} />
+        <Route path="/category" element={<MakeupArtist />} />
+        <Route path="/category" element={<Venue />} />
+
         <Route path="/nabbar" element={<Navbar />} /> 
         <Route path="/admin/dashboard" element={<AdminDashboard />} />
         <Route path="/login" element={<Loginpage />} />
