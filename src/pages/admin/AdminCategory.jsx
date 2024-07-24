@@ -4,6 +4,7 @@ import { createCategoryApi } from "../../api/Api"; // Ensure this path is correc
 
 const CreateCategoryForm = () => {
   const [categoryData, setCategoryData] = useState({
+    price: "",
     name: "",
     info: "",
     photo: null,
@@ -27,6 +28,7 @@ const CreateCategoryForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append("price", categoryData.price);
     formData.append("name", categoryData.name);
     formData.append("info", categoryData.info);
     if (categoryData.photo) {
@@ -49,6 +51,18 @@ const CreateCategoryForm = () => {
     <div className="container">
       <h2>Create Category</h2>
       <form onSubmit={handleSubmit}>
+        <div className="mb-3">
+          <label className="form-label">Price</label>
+          <input
+            type="number"
+            name="price"
+            value={categoryData.price}
+            onChange={handleChange}
+            className="form-control"
+            placeholder="Enter price"
+            required
+          />
+        </div>
         <div className="mb-3">
           <label className="form-label">Category Name</label>
           <input

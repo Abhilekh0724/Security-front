@@ -37,3 +37,4 @@ export const createCategoryApi = (formData) => {
 export const getCategoriesApi = () => {
   return Api.get('/api/admin/get');
 };
+

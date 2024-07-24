@@ -100,9 +100,7 @@ const Homepage = () => {
                 BOOK
               </button>
             </div>
-            <div className="card-footer">
-              <small className="text-body-secondary">Last updated 3 mins ago</small>
-            </div>
+
           </div>
           <div className="card" style={cardStyle}>
             <img src="assets/images/abc.jpg" className="card-img-top" style={cardImageStyle} alt="Classic Venue" />
@@ -127,9 +125,6 @@ const Homepage = () => {
                 BOOK
               </button>
             </div>
-            <div className="card-footer">
-              <small className="text-body-secondary">Last updated 3 mins ago</small>
-            </div>
           </div>
           <div className="card" style={cardStyle}>
             <img src="assets/images/rus.jpg" className="card-img-top" style={cardImageStyle} alt="Rustic Venue" />
@@ -153,9 +148,6 @@ const Homepage = () => {
               >
                 BOOK
               </button>
-            </div>
-            <div className="card-footer">
-              <small className="text-body-secondary">Last updated 3 mins ago</small>
             </div>
           </div>
         </div>
