@@ -1,8 +1,29 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getCategoriesApi } from "../api/Api";// Ensure this path is correct
+import { toast } from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Homepage = () => {
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const response = await getCategoriesApi();
+        if (response.data.success) {
+          setCategories(response.data.categories);
+        } else {
+          toast.error(response.data.message);
+        } 
+      } catch (error) {
+        toast.error("Error fetching categories");
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
   const cardImageStyle = {
     height: '200px',
     objectFit: 'cover'
@@ -75,81 +96,34 @@ const Homepage = () => {
       </header>
       
       <div style={{ padding: '40px', backgroundColor: '#fff' }}>
-        <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>RECENTLY VIEWED</h2>
-        <div className="d-flex justify-content-center flex-wrap">
-          <div className="card" style={cardStyle}>
-            <img src="assets/images/beach.jpg" className="card-img-top" style={cardImageStyle} alt="Beach side venue" />
-            <div className="card-body">
-              <h5 className="card-title">Beach Side Venue</h5>
-              <p className="card-text">Stunning beachfront venue for a breathtaking romantic celebration</p>
-              <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
-              <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
-              <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>$20,000</p>
-              <button
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#28a745',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  marginTop: '10px'
-                }}
-              >
-                BOOK
-              </button>
-            </div>
 
-          </div>
-          <div className="card" style={cardStyle}>
-            <img src="assets/images/abc.jpg" className="card-img-top" style={cardImageStyle} alt="Classic Venue" />
-            <div className="card-body">
-              <h5 className="card-title">Classic Venue</h5>
-              <p className="card-text">Elegant classic indoor ballroom venue with string lights</p>
-              <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
-              <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
-              <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>$60,770</p>
-              <button
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#28a745',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  marginTop: '10px'
-                }}
-              >
-                BOOK
-              </button>
+        <div className="d-flex justify-content-center flex-wrap">
+          {categories.map(category => (
+            <div key={category._id} className="card" style={cardStyle}>
+              <img src={`path_to_your_images_directory/${category.photo}`} className="card-img-top" style={cardImageStyle} alt={category.name} />
+              <div className="card-body">
+                <h5 className="card-title">{category.name}</h5>
+                <p className="card-text">{category.info}</p>
+                <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
+                <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
+                <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>${category.price}</p>
+                <button
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#28a745',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    marginTop: '10px'
+                  }}
+                >
+                  BOOK
+                </button>
+              </div>
             </div>
-          </div>
-          <div className="card" style={cardStyle}>
-            <img src="assets/images/rus.jpg" className="card-img-top" style={cardImageStyle} alt="Rustic Venue" />
-            <div className="card-body">
-              <h5 className="card-title">Rustic Venue</h5>
-              <p className="card-text">Charming rustic outdoor venue in the woods, treelined paths</p>
-              <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
-              <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
-              <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>$8,000</p>
-              <button
-                style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#28a745',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  marginTop: '10px'
-                }}
-              >
-                BOOK
-              </button>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </div>
