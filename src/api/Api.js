@@ -23,3 +23,17 @@ export const uploadProfilePicApi = (formData) => {
     }
   });
 };
+
+// Create Category API
+export const createCategoryApi = (formData) => {
+  return Api.post('/api/admin/create', formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  });
+};
+
+// Fetch Categories API
+export const getCategoriesApi = () => {
+  return Api.get('/api/admin/get');
+};

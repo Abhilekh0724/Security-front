@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faCog, faSignOutAlt, faSearch } from "@fortawesome/free-solid-svg-icons";
@@ -10,6 +10,14 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
+
+  useEffect(() => {
+    // Manually initialize Bootstrap dropdowns
+    const dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
+    dropdownToggleList.map(function (dropdownToggle) {
+      return new window.bootstrap.Dropdown(dropdownToggle);
+    });
+  }, []); // Empty dependency array ensures this effect runs only once
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -53,12 +61,13 @@ const Navbar = () => {
                   <button
                     className="btn btn-secondary dropdown-toggle"
                     type="button"
+                    id="dropdownMenuButton"
                     data-bs-toggle="dropdown"
                     aria-expanded="false"
                   >
                     <FontAwesomeIcon icon={faUser} className="me-2" />
                   </button>
-                  <ul className="dropdown-menu dropdown-menu-end">
+                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
                     <li>
                       <Link className="dropdown-item" to="/profile">
                         <FontAwesomeIcon icon={faUser} className="me-2" />

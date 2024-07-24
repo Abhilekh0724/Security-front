@@ -8,11 +8,12 @@ import Navbar from "./components/Navbar";
 import Profile from "./pages/profile/profile";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import AdminDashboard from "./pages/admin/AdminDashboard";
 import CelebrationHalls from "./pages/category/CelebrationHalls";
 import Photographer from "./pages/category/Photographer";
 import Venue from "./pages/category/Venue";
 import MakeupArtist from "./pages/category/MakeupArtist";
+import AdminCategoryDashboard from "./pages/admin/AdminCategory";
+import AdminCategoryList from "./pages/admin/AdminPanel";
 
 function App() {
   return (
@@ -29,7 +30,8 @@ function App() {
         <Route path="/category" element={<MakeupArtist />} />
         <Route path="/category" element={<Venue />} />
         <Route path="/nabbar" element={<Navbar />} /> 
-        <Route path="/admin/dashboard" element={<AdminDashboard />} />
+        <Route path="/admin/category" element={<AdminCategoryDashboard />} />
+        <Route path="/admin/list" element={<AdminCategoryList />} />
         <Route path="/login" element={<Loginpage />} />
         <Route path="/register" element={<Registerpage />} />
       </Routes>
