@@ -1,8 +1,18 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const Homepage = () => {
+  const cardImageStyle = {
+    height: '200px',
+    objectFit: 'cover'
+  };
+
+  const cardStyle = {
+    width: '300px',
+    margin: '10px'
+  };
+
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', color: '#333', backgroundColor: 'white', position: 'relative', zIndex: '1' }}>
       <div id="carouselExampleInterval" className="carousel slide" data-bs-ride="carousel" style={{ position: 'relative', zIndex: '0' }}>
@@ -11,7 +21,7 @@ const Homepage = () => {
             <img src="assets/images/12.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 1" />
           </div>
           <div className="carousel-item" data-bs-interval="2000">
-            <img src="assets/images/h.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }}  alt="Slide 2" />
+            <img src="assets/images/h.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 2" />
           </div>
           <div className="carousel-item">
             <img src="assets/images/45.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 3" />
@@ -66,72 +76,87 @@ const Homepage = () => {
       
       <div style={{ padding: '40px', backgroundColor: '#fff' }}>
         <h2 style={{ textAlign: 'center', marginBottom: '30px' }}>RECENTLY VIEWED</h2>
-        <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <div style={{ width: '30%', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-            <img src="assets/images/beach.jpg" alt="Beach side venue" style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
-            <h3>Beach Side Venue</h3>
-            <p>Stunning beachfront venue for a breathtaking romantic celebration</p>
-            <p>Starting from:</p>
-            <h4 style={{ color: '#007bff' }}>BEST AVAILABLE RATE</h4>
-            <p style={{ fontSize: '18px', fontWeight: 'bold' }}>$20,000</p>
-            <button
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#28a745',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '16px',
-                marginTop: '10px'
-              }}
-            >
-              BOOK
-            </button>
+        <div className="d-flex justify-content-center flex-wrap">
+          <div className="card" style={cardStyle}>
+            <img src="assets/images/beach.jpg" className="card-img-top" style={cardImageStyle} alt="Beach side venue" />
+            <div className="card-body">
+              <h5 className="card-title">Beach Side Venue</h5>
+              <p className="card-text">Stunning beachfront venue for a breathtaking romantic celebration</p>
+              <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
+              <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
+              <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>$20,000</p>
+              <button
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginTop: '10px'
+                }}
+              >
+                BOOK
+              </button>
+            </div>
+            <div className="card-footer">
+              <small className="text-body-secondary">Last updated 3 mins ago</small>
+            </div>
           </div>
-          <div style={{ width: '30%', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-            <img src="assets/images/abc.jpg" alt="Classic Venue" style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
-            <h3>Classic Venue</h3>
-            <p>Elegant classic indoor ballroom venue with string lights</p>
-            <p>Starting from:</p>
-            <h4 style={{ color: '#007bff' }}>BEST AVAILABLE RATE</h4>
-            <p style={{ fontSize: '18px', fontWeight: 'bold' }}>$60,770</p>
-            <button
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#28a745',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '16px',
-                marginTop: '10px'
-              }}
-            >
-              BOOK
-            </button>
+          <div className="card" style={cardStyle}>
+            <img src="assets/images/abc.jpg" className="card-img-top" style={cardImageStyle} alt="Classic Venue" />
+            <div className="card-body">
+              <h5 className="card-title">Classic Venue</h5>
+              <p className="card-text">Elegant classic indoor ballroom venue with string lights</p>
+              <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
+              <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
+              <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>$60,770</p>
+              <button
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginTop: '10px'
+                }}
+              >
+                BOOK
+              </button>
+            </div>
+            <div className="card-footer">
+              <small className="text-body-secondary">Last updated 3 mins ago</small>
+            </div>
           </div>
-          <div style={{ width: '30%', backgroundColor: '#fff', padding: '20px', borderRadius: '10px', boxShadow: '0px 2px 5px rgba(0,0,0,0.1)', textAlign: 'center' }}>
-            <img src="assets/images/rus.jpg" alt="Rustic Venue" style={{ width: '100%', height: 'auto', borderRadius: '10px' }} />
-            <h3>Rustic Venue</h3>
-            <p>Charming rustic outdoor venue in the woods, treelined paths</p>
-            <p>Starting from:</p>
-            <h4 style={{ color: '#007bff' }}>BEST AVAILABLE RATE</h4>
-            <p style={{ fontSize: '18px', fontWeight: 'bold' }}>$8,000</p>
-            <button
-              style={{
-                padding: '10px 20px',
-                backgroundColor: '#28a745',
-                color: '#fff',
-                border: 'none',
-                borderRadius: '5px',
-                cursor: 'pointer',
-                fontSize: '16px',
-                marginTop: '10px'
-              }}
-            >
-              BOOK
-            </button>
+          <div className="card" style={cardStyle}>
+            <img src="assets/images/rus.jpg" className="card-img-top" style={cardImageStyle} alt="Rustic Venue" />
+            <div className="card-body">
+              <h5 className="card-title">Rustic Venue</h5>
+              <p className="card-text">Charming rustic outdoor venue in the woods, treelined paths</p>
+              <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
+              <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
+              <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>$8,000</p>
+              <button
+                style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginTop: '10px'
+                }}
+              >
+                BOOK
+              </button>
+            </div>
+            <div className="card-footer">
+              <small className="text-body-secondary">Last updated 3 mins ago</small>
+            </div>
           </div>
         </div>
       </div>
