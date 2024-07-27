@@ -129,20 +129,21 @@ const Homepage = () => {
                 <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
                 <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
                 <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>${category.price}</p>
-                <button
-                  style={{
-                    padding: '10px 20px',
-                    backgroundColor: '#28a745',
-                    color: '#fff',
-                    border: 'none',
-                    borderRadius: '5px',
-                    cursor: 'pointer',
-                    fontSize: '16px',
-                    marginTop: '10px'
-                  }}
-                >
+                <Link to={`/category/${category._id}`} style={{
+                  padding: '10px 20px',
+                  backgroundColor: '#28a745',
+                  color: '#fff',
+                  border: 'none',
+                  borderRadius: '5px',
+                  cursor: 'pointer',
+                  fontSize: '16px',
+                  marginTop: '10px',
+                  textDecoration: 'none',
+                  display: 'inline-block',
+                  textAlign: 'center'
+                }}>
                   BOOK
-                </button>
+                </Link>
               </div>
             </div>
           ))}

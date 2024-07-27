@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import { getCategoryByIdApi } from "../../api/Api";// Ensure this path is correct
-import { toast } from "react-toastify";
+import React, { useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { getCategoryByIdApi } from '../../api/Api';// Ensure this path is correct
+import { toast } from 'react-toastify';
 
 const CategoryDetail = () => {
   const { id } = useParams();
@@ -17,7 +17,7 @@ const CategoryDetail = () => {
           toast.error(response.data.message);
         }
       } catch (error) {
-        toast.error("Error fetching category");
+        toast.error('Error fetching category');
       }
     };
 
@@ -29,24 +29,11 @@ const CategoryDetail = () => {
   }
 
   return (
-    <div style={{ padding: '40px' }}>
-      <h2>{category.name}</h2>
-      <img src={`http://localhost:5500${category.photo}`} alt={category.name} style={{ width: '100%', height: 'auto' }} />
+    <div className="container mt-4">
+      <h1>{category.name}</h1>
       <p>{category.info}</p>
-      <p style={{ fontSize: '18px', fontWeight: 'bold' }}>${category.price}</p>
-      <button
-        style={{
-          padding: '10px 20px',
-          backgroundColor: '#28a745',
-          color: '#fff',
-          border: 'none',
-          borderRadius: '5px',
-          cursor: 'pointer',
-          fontSize: '16px',
-        }}
-      >
-        BOOK
-      </button>
+      {category.photo && <img src={`http://localhost:5500${category.photo}`} alt={category.name} style={{ maxWidth: '200px' }} />}
+      <p>Price: ${category.price}</p>
     </div>
   );
 };

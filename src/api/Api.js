@@ -37,7 +37,7 @@ export const createCategoryApi = (formData) => {
 export const getCategoriesApi = () => {
   return Api.get('/api/admin/get');
 };
-export const getCategoryByIdApi = (id) => Api.get(`/api/admin/get/${id}`);
+export const getCategoryByIdApi = (id) => Api.get(`/admin/get/${id}`);
 
 // Search Categories API
 export const searchCategoriesApi = (query) => {
