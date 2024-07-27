@@ -37,10 +37,17 @@ export const createCategoryApi = (formData) => {
 export const getCategoriesApi = () => {
   return Api.get('/api/admin/get');
 };
-export const getCategoryByIdApi = (id) => Api.get(`/admin/get/${id}`);
 
+// Fetch Category by ID API
+export const getCategoryByIdApi = async (id) => {
+  return await Api.get(`/api/admin/get/${id}`);
+};
 // Search Categories API
 export const searchCategoriesApi = (query) => {
   return Api.get(`/api/admin/search?q=${query}`);
+};
+// Get Reviews by Category API
+export const getReviewsByCategoryApi = (categoryId) => {
+  return Api.get(`/api/review/reviews/${categoryId}`);
 };
 
