@@ -121,7 +121,7 @@ const Homepage = () => {
       <div style={{ padding: '40px', backgroundColor: '#fff' }}>
         <div className="d-flex justify-content-center flex-wrap">
           {categories.map(category => (
-            <div key={category._id} className="card" style={cardStyle}>
+            <Link to={`/category/${category._id}`} key={category._id} className="card" style={cardStyle}>
               <img src={`http://localhost:5500${category.photo}`} className="card-img-top" style={cardImageStyle} alt={category.name} />
               <div className="card-body">
                 <h5 className="card-title">{category.name}</h5>
@@ -129,7 +129,7 @@ const Homepage = () => {
                 <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
                 <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
                 <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>${category.price}</p>
-                <Link to={`/category/${category._id}`} style={{
+                <div style={{
                   padding: '10px 20px',
                   backgroundColor: '#28a745',
                   color: '#fff',
@@ -143,9 +143,9 @@ const Homepage = () => {
                   textAlign: 'center'
                 }}>
                   BOOK
-                </Link>
+                </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       </div>
