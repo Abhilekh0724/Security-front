@@ -34,18 +34,41 @@ const Homepage = () => {
     margin: '10px'
   };
 
+  const carouselCaptionStyle = {
+    backgroundColor: 'rgba(0, 0, 0, 0.7)',
+    padding: '20px',
+    color: '#fff',
+    textAlign: 'center',
+    fontSize: '24px',
+    fontWeight: 'bold',
+    fontFamily: 'Arial, sans-serif',
+    width: '100%',
+    position: 'absolute',
+    bottom: '0',
+    left: '0'
+  };
+
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', color: '#333', backgroundColor: 'white', position: 'relative', zIndex: '1' }}>
       <div id="carouselExampleInterval" className="carousel slide" data-bs-ride="carousel" style={{ position: 'relative', zIndex: '0' }}>
         <div className="carousel-inner">
           <div className="carousel-item active" data-bs-interval="10000">
             <img src="assets/images/12.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 1" />
+            <div className="carousel-caption d-none d-md-block" style={carouselCaptionStyle}>
+              <span>20% off on 100 or more attendees</span>
+            </div>
           </div>
           <div className="carousel-item" data-bs-interval="2000">
             <img src="assets/images/h.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 2" />
+            <div className="carousel-caption d-none d-md-block" style={carouselCaptionStyle}>
+              <span>10% off</span>
+            </div>
           </div>
           <div className="carousel-item">
             <img src="assets/images/45.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 3" />
+            <div className="carousel-caption d-none d-md-block" style={carouselCaptionStyle}>
+              <span>Exclusive offer for 1 lucky person</span>
+            </div>
           </div>
         </div>
         <button className="carousel-control-prev" type="button" data-bs-target="#carouselExampleInterval" data-bs-slide="prev">
@@ -96,7 +119,6 @@ const Homepage = () => {
       </header>
       
       <div style={{ padding: '40px', backgroundColor: '#fff' }}>
-
         <div className="d-flex justify-content-center flex-wrap">
           {categories.map(category => (
             <div key={category._id} className="card" style={cardStyle}>
