@@ -10,7 +10,7 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
-
+asa
   useEffect(() => {
     // Manually initialize Bootstrap dropdowns
     const dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
