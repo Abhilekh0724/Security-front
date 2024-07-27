@@ -143,7 +143,7 @@ const Homepage = () => {
                   textAlign: 'center'
                 }}>
                   BOOK
-                </div>dasd
+                </div>
               </div>
             </Link>
           ))}
