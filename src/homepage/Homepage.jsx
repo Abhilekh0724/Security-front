@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getCategoriesApi } from "../api/Api";// Ensure this path is correct
+import { getCategoriesApi } from "../api/Api"; // Ensure this path is correct
 import { toast } from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -15,7 +15,7 @@ const Homepage = () => {
           setCategories(response.data.categories);
         } else {
           toast.error(response.data.message);
-        } 
+        }
       } catch (error) {
         toast.error("Error fetching categories");
       }
@@ -100,7 +100,7 @@ const Homepage = () => {
         <div className="d-flex justify-content-center flex-wrap">
           {categories.map(category => (
             <div key={category._id} className="card" style={cardStyle}>
-              <img src={`path_to_your_images_directory/${category.photo}`} className="card-img-top" style={cardImageStyle} alt={category.name} />
+              <img src={`http://localhost:5500${category.photo}`} className="card-img-top" style={cardImageStyle} alt={category.name} />
               <div className="card-body">
                 <h5 className="card-title">{category.name}</h5>
                 <p className="card-text">{category.info}</p>
