@@ -46,8 +46,12 @@ export const getCategoryByIdApi = async (id) => {
 export const searchCategoriesApi = (query) => {
   return Api.get(`/api/admin/search?q=${query}`);
 };
+
+export const postReviewApi = (reviewData) => {
+  return Api.post('/api/review/reviews', reviewData);
+};
+
 // Get Reviews by Category API
 export const getReviewsByCategoryApi = (categoryId) => {
   return Api.get(`/api/review/reviews/${categoryId}`);
 };
-

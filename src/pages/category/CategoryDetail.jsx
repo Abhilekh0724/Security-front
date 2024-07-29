@@ -1,8 +1,9 @@
+// src/components/CategoryDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCategoryByIdApi } from '../../api/Api'; // Ensure this path is correct
+import { getCategoryByIdApi, getReviewsByCategoryApi, postReviewApi } from '../../api/Api';
 import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css'; // Ensure toast styles are included
+import 'react-toastify/dist/ReactToastify.css';
 
 const CategoryDetail = () => {
   const { id } = useParams();
@@ -11,13 +12,12 @@ const CategoryDetail = () => {
   const [comments, setComments] = useState([]);
   const [rating, setRating] = useState(0);
   const [bookingDate, setBookingDate] = useState('');
+  const [userId, setUserId] = useState(''); // Ensure this is set correctly
 
   useEffect(() => {
-    console.log('Category ID:', id); // Log the ID
     const fetchCategory = async () => {
       try {
         const response = await getCategoryByIdApi(id);
-        console.log('API Response:', response.data); // Log the response data
         if (response.data.success) {
           setCategory(response.data.category);
         } else {
@@ -28,20 +28,45 @@ const CategoryDetail = () => {
       }
     };
 
+    const fetchReviews = async () => {
+      try {
+        const response = await getReviewsByCategoryApi(id);
+        if (response.data.success) {
+          setComments(response.data.reviews);
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error('Error fetching reviews');
+      }
+    };
+
     fetchCategory();
+    fetchReviews();
   }, [id]);
 
   const handleCommentChange = (e) => {
     setComment(e.target.value);
   };
 
-  const handleCommentSubmit = () => {
-    if (comment.trim()) {
-      setComments([...comments, comment]);
-      setComment('');
-      toast.success('Comment added!');
+  const handleCommentSubmit = async () => {
+    if (comment.trim() && rating > 0) {
+      try {
+        const reviewData = { categoryId: id, userId, comment, rating };
+        const response = await postReviewApi(reviewData);
+        if (response.data.success) {
+          setComments([...comments, response.data.review]);
+          setComment('');
+          setRating(0); // Reset rating after submission
+          toast.success('Comment added!');
+        } else {
+          toast.error(response.data.message);
+        }
+      } catch (error) {
+        toast.error('Error posting comment');
+      }
     } else {
-      toast.error('Comment cannot be empty');
+      toast.error('Comment cannot be empty and rating must be selected');
     }
   };
 
@@ -104,32 +129,35 @@ const CategoryDetail = () => {
               placeholder="Add your comment here"
               className="comment-input"
             />
+            <div className="rating-section">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <span
+                  key={star}
+                  onClick={() => handleRatingChange(star)}
+                  className={`star ${star <= rating ? 'filled' : ''}`}
+                >
+                  ★
+                </span>
+              ))}
+            </div>
             <button onClick={handleCommentSubmit} className="comment-submit">
               Submit Comment
             </button>
             <div className="comments-list">
-              {comments.map((c, index) => (
-                <p key={index} className="comment-item">{c}</p>
+              {comments.map((review, index) => (
+                <div key={index} className="comment-item">
+                  <p>{review.comment}</p>
+                  <p>Rating: {review.rating} stars</p>
+                  <p>By: {review.userId.firstName} {review.userId.lastName}</p> {/* Display user's name */}
+                  <p>On: {new Date(review.createdAt).toLocaleDateString()}</p> {/* Display review date */}
+                </div>
               ))}
             </div>
-          </div>
-
-          <div className="rating-section">
-            <h2>Rating</h2>
-            {[1, 2, 3, 4, 5].map((star) => (
-              <span
-                key={star}
-                onClick={() => handleRatingChange(star)}
-                className={`star ${star <= rating ? 'filled' : ''}`}
-              >
-                ★
-              </span>
-            ))}
-            <p className="current-rating">Current Rating: {rating} stars</p>
           </div>
         </div>
       </div>
       <style jsx>{`
+        /* Styles go here */
         .container {
           display: flex;
           justify-content: center;
@@ -170,118 +198,75 @@ const CategoryDetail = () => {
         p {
           font-size: 1.2em;
           margin: 10px 0;
+          color: #555;
         }
 
         .price {
-          font-size: 1.5em;
-          color: #007bff;
+          font-weight: bold;
+          color: #e91e63;
         }
 
-        .booking-section {
-          margin-top: 20px;
-          border-top: 2px solid #eee;
-          padding-top: 20px;
-        }
-
-        .booking-form {
-          display: flex;
-          flex-direction: column;
-        }
-
-        .booking-form label {
-          margin-bottom: 10px;
-          font-size: 1.1em;
-        }
-
-        .booking-input {
-          width: 100%;
-          padding: 10px;
-          border-radius: 5px;
-          border: 1px solid #ddd;
-          margin-bottom: 10px;
-          font-size: 1em;
-        }
-
-        .booking-submit {
-          padding: 10px 20px;
-          background: #007bff;
-          color: #fff;
-          border: none;
-          border-radius: 5px;
-          cursor: pointer;
-          font-size: 1.1em;
-          transition: background 0.3s;
-        }
-
-        .booking-submit:hover {
-          background: #0056b3;
-        }
-
-        .reviews-section {
+        .booking-section, .reviews-section {
           margin-top: 20px;
         }
 
-        .comments-section {
-          margin-bottom: 20px;
+        .booking-form label, .comment-input {
+          display: block;
+          margin-bottom: 10px;
+          font-size: 1.1em;
         }
 
-        .comment-input {
+        .booking-input, .comment-input {
           width: 100%;
           padding: 10px;
-          border-radius: 5px;
           border: 1px solid #ddd;
+          border-radius: 4px;
           margin-bottom: 10px;
-          font-size: 1em;
-          height: 100px;
-          resize: vertical;
         }
 
-        .comment-submit {
+        .booking-submit, .comment-submit {
           padding: 10px 20px;
-          background: #007bff;
+          background-color: #e91e63;
           color: #fff;
           border: none;
-          border-radius: 5px;
+          border-radius: 4px;
           cursor: pointer;
-          font-size: 1.1em;
-          transition: background 0.3s;
+          transition: background-color 0.3s ease;
         }
 
-        .comment-submit:hover {
-          background: #0056b3;
+        .booking-submit:hover, .comment-submit:hover {
+          background-color: #d81b60;
         }
 
         .comments-list {
-          margin-top: 10px;
+          margin-top: 20px;
         }
 
         .comment-item {
-          background: #fff;
           padding: 10px;
-          border-radius: 5px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+          background-color: #f9f9f9;
+          border: 1px solid #eee;
+          border-radius: 4px;
           margin-bottom: 10px;
         }
 
         .rating-section {
-          display: flex;
-          align-items: center;
           margin-top: 20px;
+          text-align: center;
         }
 
         .star {
-          font-size: 24px;
+          font-size: 2em;
           cursor: pointer;
-          color: gray;
-          margin: 0 5px;
+          transition: color 0.2s;
         }
 
         .star.filled {
-          color: gold;
+          color: #ff9800;
         }
 
         .current-rating {
-          margin-left: 10px;
+          margin-top: 10px;
           font-size: 1.2em;
           color: #333;
         }
