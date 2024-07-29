@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import { searchCategoriesApi } from "../../api/Api"; // Adjust the import path as necessary
 
 const SearchResults = () => {
@@ -27,16 +27,21 @@ const SearchResults = () => {
       {results.length > 0 ? (
         <ul className="list-group">
           {results.map((result) => (
-            <li key={result._id} className="list-group-item">
-              <h5>{result.name}</h5>
-              <p>{result.info}</p>
-              {result.photo && (
-                <img
-                  src={`http://localhost:5500${result.photo}`} // Ensure URL is correctly formed
-                  alt={result.name}
-                  style={{ maxWidth: "200px", maxHeight: "200px" }} // Optional: set max dimensions
-                />
-              )}
+            <li key={result._id} className="list-group-item d-flex justify-content-between align-items-center">
+              <div>
+                <h5>{result.name}</h5>
+                <p>{result.info}</p>
+                {result.photo && (
+                  <img
+                    src={`http://localhost:5500${result.photo}`} // Ensure URL is correctly formed
+                    alt={result.name}
+                    style={{ maxWidth: "200px", maxHeight: "200px" }} // Optional: set max dimensions
+                  />
+                )}
+              </div>
+              <Link to={`/category/${result._id}`} className="btn btn-primary mt-2">
+                View Details
+              </Link>
             </li>
           ))}
         </ul>
