@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { createCategoryApi } from "../../api/Api"; // Ensure this path is correct
+import { createCategoryApi } from "../../api/Api";
 
 const CreateCategoryForm = () => {
   const [categoryData, setCategoryData] = useState({

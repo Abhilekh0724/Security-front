@@ -12,7 +12,7 @@ const CategoryDetail = () => {
   const [comments, setComments] = useState([]);
   const [rating, setRating] = useState(0);
   const [bookingDate, setBookingDate] = useState('');
-  const [userId, setUserId] = useState(''); // Ensure this is set correctly
+  const [userId, setUserId] = useState('66604897b9f6ebde0eecab7d'); // Ensure this is set correctly
 
   useEffect(() => {
     const fetchCategory = async () => {
