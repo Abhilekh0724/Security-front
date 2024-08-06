@@ -1,9 +1,9 @@
-// src/components/CategoryDetail.jsx
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { getCategoryByIdApi, getReviewsByCategoryApi, postReviewApi } from '../../api/Api';
+import { getCategoryByIdApi, getReviewsByCategoryApi, postReviewApi, createBookingApi } from '../../api/Api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { FaStar } from 'react-icons/fa';
 
 const CategoryDetail = () => {
   const { id } = useParams();
@@ -12,7 +12,7 @@ const CategoryDetail = () => {
   const [comments, setComments] = useState([]);
   const [rating, setRating] = useState(0);
   const [bookingDate, setBookingDate] = useState('');
-  const [userId, setUserId] = useState('66604897b9f6ebde0eecab7d'); // Ensure this is set correctly
+  const userId = '66613540763c430127cd057a'; // Ensure this is set correctly
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -75,13 +75,34 @@ const CategoryDetail = () => {
     toast.success(`Rating updated to ${newRating}`);
   };
 
-  const handleBookingSubmit = () => {
+  const handleBookingSubmit = async () => {
     if (!bookingDate) {
       toast.error('Please select a date for booking.');
       return;
     }
-    // Here you would typically send the booking data to your server
-    toast.success(`Booking confirmed for ${bookingDate}`);
+    try {
+      const bookingData = { categoryId: id, bookingDate, userId };
+      const response = await createBookingApi(bookingData);
+      if (response.data.success) {
+        toast.success('Booking confirmed. Payment should be made 5 days before the booked date, or it will get canceled.', {
+          autoClose: 3000, // 3 seconds
+        });
+      } else {
+        toast.error(response.data.message, {
+          autoClose: 3000, // 3 seconds
+        });
+      }
+    } catch (error) {
+      toast.error('Error creating booking.', {
+        autoClose: 3000, // 3 seconds
+      });
+    }
+  };
+
+  const calculateAverageRating = () => {
+    if (comments.length === 0) return 0;
+    const totalRating = comments.reduce((sum, review) => sum + review.rating, 0);
+    return (totalRating / comments.length).toFixed(1);
   };
 
   if (!category) {
@@ -100,6 +121,7 @@ const CategoryDetail = () => {
           <h1>{category.name}</h1>
           <p>{category.info}</p>
           <p className="price">Price: ${category.price}</p>
+          <p className="average-rating">Average Rating: {calculateAverageRating()} <FaStar className="star filled" /></p>
 
           <div className="booking-section">
             <h2>Book This Category</h2>
@@ -131,13 +153,11 @@ const CategoryDetail = () => {
             />
             <div className="rating-section">
               {[1, 2, 3, 4, 5].map((star) => (
-                <span
+                <FaStar
                   key={star}
                   onClick={() => handleRatingChange(star)}
                   className={`star ${star <= rating ? 'filled' : ''}`}
-                >
-                  ★
-                </span>
+                />
               ))}
             </div>
             <button onClick={handleCommentSubmit} className="comment-submit">
@@ -147,7 +167,11 @@ const CategoryDetail = () => {
               {comments.map((review, index) => (
                 <div key={index} className="comment-item">
                   <p>{review.comment}</p>
-                  <p>Rating: {review.rating} stars</p>
+                  <p>
+                    Rating: {Array.from({ length: review.rating }, (_, i) => (
+                      <FaStar key={i} className="star filled" />
+                    ))}
+                  </p>
                   <p>By: {review.userId.firstName} {review.userId.lastName}</p> {/* Display user's name */}
                   <p>On: {new Date(review.createdAt).toLocaleDateString()}</p> {/* Display review date */}
                 </div>
@@ -204,6 +228,13 @@ const CategoryDetail = () => {
         .price {
           font-weight: bold;
           color: #e91e63;
+        }
+
+        .average-rating {
+          font-size: 1.2em;
+          color: #ff9800;
+          display: flex;
+          align-items: center;
         }
 
         .booking-section, .reviews-section {
