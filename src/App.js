@@ -15,6 +15,7 @@ import SearchResults from "./pages/search/searchpage";
 import AdminCategoryDashboard from "./pages/admin/AdminCategory";
 import CategoryDetail from "./pages/category/CategoryDetail";
 import AdminCategoryList from "./pages/admin/AdminPanel";
+import Book from "./pages/book/Book";
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
         <Route path="/login" element={<Loginpage />} />
         <Route path="/category/:id" element={<CategoryDetail />} />
         <Route path="/register" element={<Registerpage />} />
+        <Route path="/book" element={<Book />} />
       </Routes>
     </Router>
   );
