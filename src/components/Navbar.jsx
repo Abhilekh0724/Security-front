@@ -81,7 +81,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/book-venue">
+                      <Link className="dropdown-item" to={`/book`}>
                         <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
                         Book Venue
                       </Link>

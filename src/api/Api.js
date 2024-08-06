@@ -1,5 +1,6 @@
 import axios from "axios";
 
+
 // Creating instance of axios
 const Api = axios.create({
   baseURL: "http://localhost:5500",
@@ -42,6 +43,17 @@ export const getCategoriesApi = () => {
 export const getCategoryByIdApi = async (id) => {
   return await Api.get(`/api/admin/get/${id}`);
 };
+export const updateCategoryApi = (id, formData) => {
+  return Api.put(`/api/admin/update/${id}`, formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  });
+};
+
+export const deleteCategoryApi = (id) => {
+  return Api.delete(`/api/admin/delete/${id}`);
+};
 // Search Categories API
 export const searchCategoriesApi = (query) => {
   return Api.get(`/api/admin/search?q=${query}`);
@@ -55,3 +67,17 @@ export const postReviewApi = (reviewData) => {
 export const getReviewsByCategoryApi = (categoryId) => {
   return Api.get(`/api/review/reviews/${categoryId}`);
 };
+// Create Booking API
+export const createBookingApi = (bookingData) => {
+  return Api.post('/api/book/book', bookingData);
+};
+
+// Get Bookings by Category API
+export const getBookingsByCategoryApi = (categoryId) => {
+  return Api.get(`/api/book/category/${categoryId}`);
+};
+
+// Get Bookings by User API
+export const getBookingsByUserApi = (userId) => {
+  return Api.post('/api/book/bookeduser', { userId });
+};  
