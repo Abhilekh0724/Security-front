@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { loginUserApi } from '../../api/Api';// Import loginUserApi function
+import { loginUserApi } from '../../api/Api'; // Import loginUserApi function
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGoogle } from '@fortawesome/free-brands-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
@@ -52,9 +52,14 @@ const Loginpage = () => {
           toast.success('Login successful');
           localStorage.setItem('token', res.data.token);
           localStorage.setItem('user', JSON.stringify(res.data.userData));
-          setTimeout(() => {
-            navigate('/homepage'); // Redirect to homepage after a short delay
-          }, 2000); // Adjust the delay as needed
+          
+          // Check user role and redirect accordingly
+          const user = JSON.parse(localStorage.getItem('user'));
+          if (user.isAdmin) {
+            navigate('/admin/category'); // Redirect to admin dashboard if admin
+          } else {
+            navigate('/homepage'); // Redirect to user homepage
+          }
         }
       })
       .catch((error) => {
@@ -70,14 +75,14 @@ const Loginpage = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundImage: 'url("https://th.bing.com/th/id/R.2ea41474040e49066c4ed04dc22d7c50?rik=4VbvnabIVU2Sbg&pid=ImgRaw&r=0")', // Replace with your image URL
+        backgroundImage: 'url("https://th.bing.com/th/id/R.2ea41474040e49066c4ed04dc22d7c50?rik=4VbvnabIVU2Sbg&pid=ImgRaw&r=0")',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
       <div
         style={{
-          backgroundColor: 'rgba(255, 255, 255, 0.9)', // Adjust opacity as needed
+          backgroundColor: 'rgba(255, 255, 255, 0.9)',
           padding: '30px',
           borderRadius: '10px',
           textAlign: 'center',
