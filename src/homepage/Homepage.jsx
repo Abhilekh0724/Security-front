@@ -26,26 +26,20 @@ const Homepage = () => {
 
   const cardImageStyle = {
     height: '200px',
-    objectFit: 'cover'
+    objectFit: 'cover',
   };
 
   const cardStyle = {
     width: '300px',
-    margin: '10px'
+    margin: '10px',
+    textDecoration: 'none', // Removes underline from text within the card
+    transition: 'transform 0.3s ease, box-shadow 0.3s ease', // Transition for hover effect
   };
 
-  const carouselCaptionStyle = {
-    backgroundColor: 'rgba(0, 0, 0, 0.7)',
-    padding: '20px',
-    color: '#fff',
-    textAlign: 'center',
-    fontSize: '24px',
-    fontWeight: 'bold',
-    fontFamily: 'Arial, sans-serif',
-    width: '100%',
-    position: 'absolute',
-    bottom: '0',
-    left: '0'
+  const textEllipsisStyle = {
+    whiteSpace: 'nowrap',
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   };
 
   return (
@@ -54,19 +48,19 @@ const Homepage = () => {
         <div className="carousel-inner">
           <div className="carousel-item active" data-bs-interval="10000">
             <img src="assets/images/12.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 1" />
-            <div className="carousel-caption d-none d-md-block" style={carouselCaptionStyle}>
+            <div className="carousel-caption d-none d-md-block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', padding: '20px', color: '#fff', textAlign: 'center', fontSize: '24px', fontWeight: 'bold', fontFamily: 'Arial, sans-serif', width: '100%', position: 'absolute', bottom: '0', left: '0' }}>
               <span>20% off on 100 or more attendees</span>
             </div>
           </div>
           <div className="carousel-item" data-bs-interval="2000">
             <img src="assets/images/h.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 2" />
-            <div className="carousel-caption d-none d-md-block" style={carouselCaptionStyle}>
+            <div className="carousel-caption d-none d-md-block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', padding: '20px', color: '#fff', textAlign: 'center', fontSize: '24px', fontWeight: 'bold', fontFamily: 'Arial, sans-serif', width: '100%', position: 'absolute', bottom: '0', left: '0' }}>
               <span>10% off</span>
             </div>
           </div>
           <div className="carousel-item">
             <img src="assets/images/45.jpg" className="d-block w-100" style={{ objectFit: 'cover', height: '400px' }} alt="Slide 3" />
-            <div className="carousel-caption d-none d-md-block" style={carouselCaptionStyle}>
+            <div className="carousel-caption d-none d-md-block" style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)', padding: '20px', color: '#fff', textAlign: 'center', fontSize: '24px', fontWeight: 'bold', fontFamily: 'Arial, sans-serif', width: '100%', position: 'absolute', bottom: '0', left: '0' }}>
               <span>Exclusive offer for 1 lucky person</span>
             </div>
           </div>
@@ -121,27 +115,45 @@ const Homepage = () => {
       <div style={{ padding: '40px', backgroundColor: '#fff' }}>
         <div className="d-flex justify-content-center flex-wrap">
           {categories.map(category => (
-            <Link to={`/category/${category._id}`} key={category._id} className="card" style={cardStyle}>
-              <img src={`http://localhost:5500${category.photo}`} className="card-img-top" style={cardImageStyle} alt={category.name} />
+            <Link
+              to={`/category/${category._id}`}
+              key={category._id}
+              className="card"
+              style={cardStyle}
+              onMouseEnter={e => {
+                e.currentTarget.style.transform = 'scale(1.05)';
+                e.currentTarget.style.boxShadow = '0px 8px 15px rgba(0, 0, 0, 0.3)';
+              }}
+              onMouseLeave={e => {
+                e.currentTarget.style.transform = 'scale(1.0)';
+                e.currentTarget.style.boxShadow = 'none';
+              }}
+            >
+              <img
+                src={`http://localhost:5500${category.photo}`}
+                className="card-img-top"
+                style={cardImageStyle}
+                alt={category.name}
+              />
               <div className="card-body">
-                <h5 className="card-title">{category.name}</h5>
-                <p className="card-text">{category.info}</p>
-                <p className="card-text"><small className="text-body-secondary">Starting from:</small></p>
-                <p className="card-text"><small className="text-body-secondary">BEST AVAILABLE RATE</small></p>
+                <h5 className="card-title" style={textEllipsisStyle}>{category.name}</h5>
+                <p className="card-text" style={textEllipsisStyle}>{category.info}</p>
                 <p className="card-text" style={{ fontSize: '18px', fontWeight: 'bold' }}>${category.price}</p>
-                <div style={{
-                  padding: '10px 20px',
-                  backgroundColor: '#28a745',
-                  color: '#fff',
-                  border: 'none',
-                  borderRadius: '5px',
-                  cursor: 'pointer',
-                  fontSize: '16px',
-                  marginTop: '10px',
-                  textDecoration: 'none',
-                  display: 'inline-block',
-                  textAlign: 'center'
-                }}>
+                <div
+                  style={{
+                    padding: '10px 20px',
+                    backgroundColor: '#28a745',
+                    color: '#fff',
+                    border: 'none',
+                    borderRadius: '5px',
+                    cursor: 'pointer',
+                    fontSize: '16px',
+                    marginTop: '10px',
+                    textDecoration: 'none',
+                    display: 'inline-block',
+                    textAlign: 'center'
+                  }}
+                >
                   BOOK
                 </div>
               </div>
