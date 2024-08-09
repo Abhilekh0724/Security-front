@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faCog, faSignOutAlt, faSearch, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUser,  faSignOutAlt, faSearch, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 
 const Navbar = () => {
   const location = useLocation();
@@ -75,13 +75,7 @@ const Navbar = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link className="dropdown-item" to="/settings">
-                        <FontAwesomeIcon icon={faCog} className="me-2" />
-                        Settings
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to={`/book`}>
+                      <Link className="dropdown-item" to={`/book/bookeduser`}>
                         <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
                         Book Venue
                       </Link>
