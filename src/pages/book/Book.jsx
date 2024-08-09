@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBookingsByUserApi } from '../../api/Api';
+import { getBookingsByUserApi, cancelBookingApi } from '../../api/Api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -23,6 +23,25 @@ const UserBookings = () => {
     fetchBookings();
   }, []);
 
+  const handleCancelBooking = async (bookingId) => {
+    try {
+      const response = await cancelBookingApi(bookingId);
+      if (response.data.success) {
+        setBookings(bookings.filter((booking) => booking._id !== bookingId));
+        toast.success('Booking canceled successfully');
+      } else {
+        toast.error(response.data.message);
+      }
+    } catch (error) {
+      toast.error('Error canceling booking');
+    }
+  };
+
+  const handlePayment = (bookingId) => {
+    // Implement your payment logic here, e.g., redirect to a payment gateway
+    toast.info(`Payment option for booking ID ${bookingId} not implemented`);
+  };
+
   return (
     <div className="container mt-4">
       <div className="bookings">
@@ -35,6 +54,10 @@ const UserBookings = () => {
               <p>Booking Date: {new Date(booking.bookingDate).toLocaleDateString()}</p>
               <p>Category: {booking.categoryId.name}</p>
               <p>Booking Created At: {new Date(booking.createdAt).toLocaleDateString()}</p>
+              <div className="booking-actions">
+                <button onClick={() => handleCancelBooking(booking._id)} className="btn btn-danger">Cancel Booking</button>
+                <button onClick={() => handlePayment(booking._id)} className="btn btn-primary">Pay Now</button>
+              </div>
             </div>
           ))
         )}
@@ -78,6 +101,31 @@ const UserBookings = () => {
           border: 1px solid #eee;
           border-radius: 4px;
           margin-bottom: 10px;
+        }
+
+        .booking-actions {
+          margin-top: 10px;
+        }
+
+        .btn {
+          padding: 10px 20px;
+          margin-right: 10px;
+          border: none;
+          border-radius: 4px;
+          color: #fff;
+          cursor: pointer;
+        }
+
+        .btn-danger {
+          background-color: #d9534f;
+        }
+
+        .btn-primary {
+          background-color: #0275d8;
+        }
+
+        .btn:hover {
+          opacity: 0.9;
         }
       `}</style>
     </div>
