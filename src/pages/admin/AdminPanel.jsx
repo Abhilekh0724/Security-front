@@ -95,8 +95,8 @@ const AdminCategoryList = () => {
             type="file"
             onChange={(e) => setPhoto(e.target.files[0])}
           />
-          <button onClick={handleUpdateSubmit}>Submit</button>
-          <button onClick={() => setEditingCategory(null)}>Cancel</button>
+          <button onClick={handleUpdateSubmit} className="btn-submit">Submit</button>
+          <button onClick={() => setEditingCategory(null)} className="btn-cancel">Cancel</button>
         </div>
       )}
       <table className="table mt-2">
@@ -123,8 +123,8 @@ const AdminCategoryList = () => {
                 />
               </td>
               <td>
-                <button onClick={() => handleUpdate(category)}>Update</button>
-                <button onClick={() => handleDelete(category._id)}>Delete</button>
+                <button onClick={() => handleUpdate(category)} className="btn-update">Update</button>
+                <button onClick={() => handleDelete(category._id)} className="btn-delete">Delete</button>
               </td>
             </tr>
           ))}
@@ -133,6 +133,10 @@ const AdminCategoryList = () => {
       <style jsx>{`
         .edit-form {
           margin-bottom: 20px;
+          background-color: #f9f9f9;
+          padding: 20px;
+          border-radius: 8px;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
         .edit-form input,
@@ -143,20 +147,57 @@ const AdminCategoryList = () => {
           padding: 10px;
           border: 1px solid #ddd;
           border-radius: 4px;
+          font-size: 16px;
         }
 
         .edit-form button {
           padding: 10px 20px;
-          background-color: #e91e63;
-          color: #fff;
           border: none;
           border-radius: 4px;
           cursor: pointer;
           margin-right: 10px;
+          font-size: 16px;
         }
 
-        .edit-form button:hover {
-          background-color: #d81b60;
+        .btn-submit {
+          background-color: #28a745;
+          color: #fff;
+        }
+
+        .btn-cancel {
+          background-color: #dc3545;
+          color: #fff;
+        }
+
+        .btn-update {
+          background-color: #28a745;
+          color: #fff;
+          margin-bottom: 10px;
+        }
+
+        .btn-delete {
+          background-color: #dc3545;
+          color: #fff;
+        }
+
+        .btn-update,
+        .btn-delete {
+          padding: 8px 12px;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+
+        .btn-update:hover {
+          background-color: #218838;
+        }
+
+        .btn-delete:hover {
+          background-color: #c82333;
+        }
+
+        .table td {
+          vertical-align: middle;
         }
       `}</style>
     </div>
