@@ -118,3 +118,13 @@ export const deleteBookingApi = (bookingId) => {
 export const getAllBookingsApi = () => {
   return Api.get('/api/book/all'); // Ensure this route is protected and requires admin privileges
 };
+
+// Create Payment API
+export const createPaymentApi = (paymentData) => {
+  return Api.post('/api/payment/place', paymentData);
+};
+
+// Verify eSewa Payment API
+export const verifyEsewaPaymentApi = (queryParams) => {
+  return Api.get('/api/payment/esewa/success', { params: queryParams });
+};

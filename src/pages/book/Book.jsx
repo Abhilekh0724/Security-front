@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getBookingsByUserApi, cancelBookingApi } from '../../api/Api';
+import { getBookingsByUserApi, cancelBookingApi, createPaymentApi } from '../../api/Api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -37,9 +37,38 @@ const UserBookings = () => {
     }
   };
 
-  const handlePayment = (bookingId) => {
-    // Implement your payment logic here, e.g., redirect to a payment gateway
-    toast.info(`Payment option for booking ID ${bookingId} not implemented`);
+  const handlePayment = async (booking) => {
+    const formData = {
+      userId: booking.userId,
+      categoryId: booking.categoryId._id,
+      bookingDate: booking.bookingDate,
+      amount: booking.amount, // Adjust this based on your payment requirements
+    };
+
+    try {
+      const response = await createPaymentApi(formData);
+      if (response.data.success) {
+        const esewaPath = "https://uat.esewa.com.np/epay/main";
+        const form = document.createElement("form");
+        form.setAttribute("method", "POST");
+        form.setAttribute("action", esewaPath);
+
+        Object.keys(response.data.formData).forEach(key => {
+          const hiddenField = document.createElement("input");
+          hiddenField.setAttribute("type", "hidden");
+          hiddenField.setAttribute("name", key);
+          hiddenField.setAttribute("value", response.data.formData[key]);
+          form.appendChild(hiddenField);
+        });
+
+        document.body.appendChild(form);
+        form.submit();
+      } else {
+        toast.error(response.data.message || 'Payment initiation failed');
+      }
+    } catch (error) {
+      toast.error('Error initiating payment');
+    }
   };
 
   return (
@@ -56,7 +85,7 @@ const UserBookings = () => {
               <p>Booking Created At: {new Date(booking.createdAt).toLocaleDateString()}</p>
               <div className="booking-actions">
                 <button onClick={() => handleCancelBooking(booking._id)} className="btn btn-danger">Cancel Booking</button>
-                <button onClick={() => handlePayment(booking._id)} className="btn btn-primary">Pay Now</button>
+                <button onClick={() => handlePayment(booking)} className="btn btn-primary">Pay Now</button>
               </div>
             </div>
           ))

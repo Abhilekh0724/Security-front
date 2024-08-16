@@ -17,6 +17,7 @@ import CategoryDetail from "./pages/category/CategoryDetail";
 import AdminCategoryList from "./pages/admin/AdminPanel";
 import Book from "./pages/book/Book";
 import AdminBooked from "./pages/admin/AdminBooked";
+import PaymentPage from "./pages/payment/Payment";
 
 function App() {
   return (
@@ -40,6 +41,7 @@ function App() {
         <Route path="/register" element={<Registerpage />} />
         <Route path="/book/bookeduser" element={<Book />} />
         <Route path="/book/adminbook" element={<AdminBooked />} />
+        <Route path="/payment" element={<PaymentPage />} />
 
       
       </Routes>
