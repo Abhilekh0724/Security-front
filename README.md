@@ -1,5 +1,5 @@
-VenueVendor
-VenueVendor was created to make venue booking easy to choose and reserve the ideal location for any kind of event. VenueVendor provides consumers with access to a large selection of venue possibilities, enabling them to search, evaluate, and reserve the location that best meets their requirements—whether they are organizing a private party, business event, or wedding.
+Venue
+Venue was created to make venue booking easy to choose and reserve the ideal location for any kind of event. VenueVendor provides consumers with access to a large selection of venue possibilities, enabling them to search, evaluate, and reserve the location that best meets their requirements—whether they are organizing a private party, business event, or wedding.
 Features
 Admin Category: Categories from the admin category can be uploaded to the website and deleted and updated.
 Search Bar: Allow users to search for categories by name or keyword.
@@ -45,7 +45,7 @@ Social Sharing: Allowing users to share their bookings and experiences on social
 Partnerships and Integrations:
 Third-Party Integrations: Partnering with event management tools, travel services, and other relevant platforms to offer a more comprehensive service.
 
-Challenges for VenueVendor
+Challenges for Venue
 
 Data Privacy and Security:
 User Data Protection: Ensuring robust encryption and secure handling of sensitive user data to prevent breaches and unauthorized access.
