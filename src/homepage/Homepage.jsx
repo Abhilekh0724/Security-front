@@ -24,24 +24,6 @@ const Homepage = () => {
     fetchCategories();
   }, []);
 
-  const cardImageStyle = {
-    height: '200px',
-    objectFit: 'cover',
-  };
-
-  const cardStyle = {
-    width: '300px',
-    margin: '10px',
-    textDecoration: 'none', // Removes underline from text within the card
-    transition: 'transform 0.3s ease, box-shadow 0.3s ease', // Transition for hover effect
-  };
-
-  const textEllipsisStyle = {
-    whiteSpace: 'nowrap',
-    overflow: 'hidden',
-    textOverflow: 'ellipsis',
-  };
-
   return (
     <div style={{ fontFamily: 'Arial, sans-serif', color: '#333', backgroundColor: 'white', position: 'relative', zIndex: '1' }}>
       <div id="carouselExampleInterval" className="carousel slide" data-bs-ride="carousel" style={{ position: 'relative', zIndex: '0' }}>
