@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { getBookingsByUserApi, cancelBookingApi, createPaymentApi } from '../../api/Api';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCalendar, faClock, faVenueMartini, faMoneyBill, faCircle } from '@fortawesome/free-solid-svg-icons';
 import 'react-toastify/dist/ReactToastify.css';
 
-const UserBookings = () => {
+const Book = () => {
   const [bookings, setBookings] = useState([]);
 
   useEffect(() => {
@@ -11,7 +13,11 @@ const UserBookings = () => {
       try {
         const response = await getBookingsByUserApi();
         if (response.data.success) {
-          setBookings(response.data.bookings);
+          // Filter out canceled bookings
+          const activeBookings = response.data.bookings.filter(
+            booking => booking.status !== 'canceled'
+          );
+          setBookings(activeBookings);
         } else {
           toast.error(response.data.message);
         }
@@ -27,7 +33,8 @@ const UserBookings = () => {
     try {
       const response = await cancelBookingApi(bookingId);
       if (response.data.success) {
-        setBookings(bookings.filter((booking) => booking._id !== bookingId));
+        // Remove the canceled booking from the state
+        setBookings(prevBookings => prevBookings.filter(booking => booking._id !== bookingId));
         toast.success('Booking canceled successfully');
       } else {
         toast.error(response.data.message);
@@ -42,7 +49,7 @@ const UserBookings = () => {
       userId: booking.userId,
       categoryId: booking.categoryId._id,
       bookingDate: booking.bookingDate,
-      amount: booking.amount, // Adjust this based on your payment requirements
+      amount: booking.amount,
     };
 
     try {
@@ -71,94 +78,253 @@ const UserBookings = () => {
     }
   };
 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'paid':
+        return '#28a745'; // green
+      case 'pending':
+        return '#ffc107'; // yellow
+      default:
+        return '#17a2b8'; // blue
+    }
+  };
+
   return (
-    <div className="container mt-4">
-      <div className="bookings">
-        <h1>Your Bookings</h1>
-        {bookings.length === 0 ? (
-          <p>No bookings available.</p>
-        ) : (
-          bookings.map((booking) => (
-            <div key={booking._id} className="booking-item">
-              <p>Booking Date: {new Date(booking.bookingDate).toLocaleDateString()}</p>
-              <p>Category: {booking.categoryId.name}</p>
-              <p>Booking Created At: {new Date(booking.createdAt).toLocaleDateString()}</p>
-              <div className="booking-actions">
-                <button onClick={() => handleCancelBooking(booking._id)} className="btn btn-danger">Cancel Booking</button>
-                <button onClick={() => handlePayment(booking)} className="btn btn-primary">Pay Now</button>
-              </div>
-            </div>
-          ))
-        )}
+    <div className="bookings-page">
+      <div className="bookings-header">
+        <h1>My Bookings</h1>
+        <p>Manage your venue bookings and payments</p>
       </div>
+
+      <div className="container">
+        <div className="bookings-container">
+          {bookings.length === 0 ? (
+            <div className="no-bookings">
+              <FontAwesomeIcon icon={faCalendar} size="3x" />
+              <p>No active bookings available.</p>
+              <a href="/homepage" className="btn btn-primary">Explore Venues</a>
+            </div>
+          ) : (
+            <div className="bookings-grid">
+              {bookings.map((booking) => (
+                <div key={booking._id} className="booking-card">
+                  <div className="booking-header">
+                    <h3>{booking.categoryId.name}</h3>
+                    <span className="booking-status">
+                      <FontAwesomeIcon 
+                        icon={faCircle} 
+                        style={{ color: getStatusColor(booking.status), marginRight: '5px', fontSize: '10px' }} 
+                      />
+                      {booking.status === 'paid' ? 'Paid' : 'Pending Payment'}
+                    </span>
+                  </div>
+                  
+                  <div className="booking-details">
+                    <div className="detail-item">
+                      <FontAwesomeIcon icon={faCalendar} />
+                      <span>Booking Date: {new Date(booking.bookingDate).toLocaleDateString()}</span>
+                    </div>
+                    <div className="detail-item">
+                      <FontAwesomeIcon icon={faClock} />
+                      <span>Created: {new Date(booking.createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div className="detail-item">
+                      <FontAwesomeIcon icon={faMoneyBill} />
+                      <span>Amount: ${booking.amount}</span>
+                    </div>
+                  </div>
+
+                  <div className="booking-actions">
+                    {booking.status !== 'paid' && (
+                      <>
+                        <button 
+                          onClick={() => handlePayment(booking)} 
+                          className="btn btn-success"
+                        >
+                          Pay Now
+                        </button>
+                        <button 
+                          onClick={() => handleCancelBooking(booking._id)} 
+                          className="btn btn-outline-danger"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
+                    {booking.status === 'paid' && (
+                      <button 
+                        className="btn btn-success"
+                        disabled
+                      >
+                        Payment Completed
+                      </button>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
       <style jsx>{`
-        .container {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          flex-direction: column;
-          background-color: #f8bbd0; /* Baby Pink Background */
-          padding: 20px;
+        .bookings-page {
+          min-height: 100vh;
+          background-color: #f8f9fa;
+          padding: 40px 0;
         }
 
-        .bookings {
-          max-width: 800px;
-          width: 100%;
-          background: #ffffff;
-          border-radius: 8px;
-          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-          overflow: hidden;
-          padding: 20px;
-          margin-top: 20px;
-        }
-
-        h1 {
-          font-size: 2em;
-          margin-bottom: 10px;
+        .bookings-header {
+          text-align: center;
+          margin-bottom: 40px;
           color: #333;
+          padding: 20px;
+          background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+          color: white;
         }
 
-        p {
-          font-size: 1.2em;
-          margin: 10px 0;
-          color: #555;
-        }
-
-        .booking-item {
-          padding: 10px;
-          background-color: #f9f9f9;
-          border: 1px solid #eee;
-          border-radius: 4px;
+        .bookings-header h1 {
+          font-size: 2.5em;
           margin-bottom: 10px;
+        }
+
+        .bookings-header p {
+          font-size: 1.1em;
+          opacity: 0.9;
+        }
+
+        .bookings-container {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 20px;
+        }
+
+        .no-bookings {
+          text-align: center;
+          padding: 60px 20px;
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .no-bookings svg {
+          color: #6c757d;
+          margin-bottom: 20px;
+        }
+
+        .no-bookings p {
+          font-size: 1.2em;
+          color: #6c757d;
+          margin-bottom: 20px;
+        }
+
+        .bookings-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+          gap: 30px;
+          padding: 20px 0;
+        }
+
+        .booking-card {
+          background: white;
+          border-radius: 10px;
+          box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          transition: transform 0.3s ease;
+        }
+
+        .booking-card:hover {
+          transform: translateY(-5px);
+        }
+
+        .booking-header {
+          padding: 20px;
+          background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+          color: white;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+        }
+
+        .booking-header h3 {
+          margin: 0;
+          font-size: 1.2em;
+        }
+
+        .booking-status {
+          display: flex;
+          align-items: center;
+          background: rgba(255, 255, 255, 0.2);
+          padding: 5px 10px;
+          border-radius: 20px;
+          font-size: 0.8em;
+        }
+
+        .booking-details {
+          padding: 20px;
+        }
+
+        .detail-item {
+          display: flex;
+          align-items: center;
+          margin-bottom: 15px;
+          color: #666;
+        }
+
+        .detail-item svg {
+          margin-right: 10px;
+          color: #6a11cb;
         }
 
         .booking-actions {
-          margin-top: 10px;
+          padding: 20px;
+          display: flex;
+          gap: 10px;
+          border-top: 1px solid #eee;
         }
 
         .btn {
           padding: 10px 20px;
-          margin-right: 10px;
+          border-radius: 5px;
+          font-weight: 500;
+          transition: all 0.3s ease;
+          flex: 1;
+        }
+
+        .btn-success {
+          background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
           border: none;
-          border-radius: 4px;
-          color: #fff;
-          cursor: pointer;
+          color: white;
         }
 
-        .btn-danger {
-          background-color: #d9534f;
+        .btn-outline-danger {
+          border: 1px solid #dc3545;
+          background: transparent;
+          color: #dc3545;
         }
 
-        .btn-primary {
-          background-color: #0275d8;
+        .btn-outline-danger:hover {
+          background: #dc3545;
+          color: white;
         }
 
-        .btn:hover {
-          opacity: 0.9;
+        .btn:disabled {
+          opacity: 0.7;
+          cursor: not-allowed;
+        }
+
+        @media (max-width: 768px) {
+          .bookings-grid {
+            grid-template-columns: 1fr;
+          }
+
+          .bookings-header h1 {
+            font-size: 2em;
+          }
         }
       `}</style>
     </div>
   );
 };
 
-export default UserBookings;
+export default Book;

@@ -7,7 +7,7 @@ const getAuthToken = () => {
 
 // Create instance of axios
 const Api = axios.create({
-  baseURL: "http://localhost:5500",
+  baseURL: "https://localhost:5500",
   withCredentials: true, // Include credentials with requests
   headers: {
     "Content-Type": "application/json",
@@ -127,4 +127,8 @@ export const createPaymentApi = (paymentData) => {
 // Verify eSewa Payment API
 export const verifyEsewaPaymentApi = (queryParams) => {
   return Api.get('/api/payment/esewa/success', { params: queryParams });
+};
+
+export const changePasswordApi = (data) => {
+  return axios.post('/api/user/change-password', data);
 };

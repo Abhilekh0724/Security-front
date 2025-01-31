@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser,  faSignOutAlt, faSearch, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faSignOutAlt, faSearch, faCalendarAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
 const Navbar = () => {
   const location = useLocation();
@@ -10,14 +12,6 @@ const Navbar = () => {
   const [searchQuery, setSearchQuery] = useState("");
 
   const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
-
-  useEffect(() => {
-    // Manually initialize Bootstrap dropdowns
-    const dropdownToggleList = [].slice.call(document.querySelectorAll('.dropdown-toggle'));
-    dropdownToggleList.map(function (dropdownToggle) {
-      return new window.bootstrap.Dropdown(dropdownToggle);
-    });
-  }, []); // Empty dependency array ensures this effect runs only once
 
   const handleLogout = () => {
     localStorage.removeItem("user");
@@ -34,70 +28,89 @@ const Navbar = () => {
   return (
     <>
       {showNavbar && (
-        <nav className="navbar navbar-expand-lg bg-dark">
-          <div className="container-fluid d-flex justify-content-between align-items-center">
-            <Link className="navbar-brand" to="/homepage">
-              <img src="/assets/images/vend.png" alt="Your Logo" style={{ maxWidth: "70px" }} />
+        <nav className="navbar navbar-expand-lg navbar-dark bg-black shadow-sm py-3">
+          <div className="container">
+            {/* Brand Logo */}
+            <Link className="navbar-brand d-flex align-items-center" to="/homepage">
+              <img src="/assets/images/mainlogo.png" alt="Wedding Logo" style={{ maxWidth: "80px", marginRight: "10px" }} />
             </Link>
-            <div style={{ flex: 20, textAlign: "center" }}>
-              <form className="d-flex" role="search" style={{ maxWidth: "600px", margin: "0 auto", width: "100%" }} onSubmit={handleSearch}>
-                <input
-                  className="form-control me-2"
-                  type="search"
-                  placeholder="Search"
-                  aria-label="Search"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  style={{ borderRadius: "20px", padding: "10px" }}
-                />
-                <button className="btn btn-outline-success" type="submit" style={{ borderRadius: "20px", padding: "10px 15px" }}>
-                  <FontAwesomeIcon icon={faSearch} />
-                </button>
-              </form>
-            </div>
-            <div className="d-flex justify-content-end" style={{ flex: 1 }}>
-              {user ? (
-                <div className="dropdown">
-                  <button
-                    className="btn btn-secondary dropdown-toggle"
-                    type="button"
-                    id="dropdownMenuButton"
-                    data-bs-toggle="dropdown"
-                    aria-expanded="false"
-                  >
-                    <FontAwesomeIcon icon={faUser} className="me-2" />
+
+            {/* Toggler Button */}
+            <button
+              className="navbar-toggler"
+              type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarContent"
+              aria-controls="navbarContent"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+            >
+              <span className="navbar-toggler-icon"></span>
+            </button>
+
+            {/* Navbar Items */}
+            <div className="collapse navbar-collapse" id="navbarContent">
+              {/* Search Bar */}
+              <div className="mx-auto" style={{ flex: 1 }}>
+                <form className="d-flex" role="search" onSubmit={handleSearch}>
+                  <input
+                    className="form-control rounded-pill px-4"
+                    type="search"
+                    placeholder="Search venues..."
+                    aria-label="Search"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <button className="btn btn-light rounded-circle ms-3" type="submit">
+                    <FontAwesomeIcon icon={faSearch} />
                   </button>
-                  <ul className="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton">
-                    <li>
-                      <Link className="dropdown-item" to="/profile">
-                        <FontAwesomeIcon icon={faUser} className="me-2" />
-                        Profile
-                      </Link>
-                    </li>
-                    <li>
-                      <Link className="dropdown-item" to={`/book/bookeduser`}>
-                        <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
-                        Book Venue
-                      </Link>
-                    </li>
-                    <li>
-                      <button className="dropdown-item" onClick={handleLogout}>
-                        <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
-                        Logout
-                      </button>
-                    </li>
-                  </ul>
-                </div>
-              ) : (
-                <>
-                  <Link to="/register" className="btn btn-outline-danger me-2" type="button">
-                    Register
-                  </Link>
-                  <Link to="/login" className="btn btn-outline-success" type="button">
-                    Login
-                  </Link>
-                </>
-              )}
+                </form>
+              </div>
+
+              {/* Profile and Auth Buttons */}
+              <div className="d-flex align-items-center">
+                {user ? (
+                  <div className="dropdown">
+                    <button 
+                      className="btn btn-outline-light dropdown-toggle rounded-pill px-4 ms-3" 
+                      type="button" 
+                      data-bs-toggle="dropdown" 
+                      aria-expanded="false"
+                    >
+                      <FontAwesomeIcon icon={faUser} className="me-2" /> My Account
+                    </button>
+                    <ul className="dropdown-menu dropdown-menu-end shadow-lg">
+                      <li>
+                        <Link className="dropdown-item" to="/profile">
+                          <FontAwesomeIcon icon={faUser} className="me-2" />
+                          Profile
+                        </Link>
+                      </li>
+                      <li>
+                        <Link className="dropdown-item" to={`/book/bookeduser`}>
+                          <FontAwesomeIcon icon={faCalendarAlt} className="me-2" />
+                          My Bookings
+                        </Link>
+                      </li>
+                      <li>
+                        <button className="dropdown-item text-danger" onClick={handleLogout}>
+                          <FontAwesomeIcon icon={faSignOutAlt} className="me-2" />
+                          Logout
+                        </button>
+                      </li>
+                    </ul>
+                  </div>
+                ) : (
+                  <>
+                    <Link to="/register" className="btn btn-outline-danger me-2 rounded-pill px-3">
+                      Register
+                    </Link>
+                    <Link to="/login" className="btn btn-outline-success rounded-pill px-3">
+                      Login
+                    </Link>
+                  </>
+                )}
+              </div>
             </div>
           </div>
         </nav>

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { getCategoryByIdApi, getReviewsByCategoryApi, postReviewApi, createBookingApi } from '../../api/Api';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,6 +13,7 @@ const CategoryDetail = () => {
   const [rating, setRating] = useState(0);
   const [bookingDate, setBookingDate] = useState('');
   const token = localStorage.getItem('token');
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchCategory = async () => {
@@ -85,21 +86,42 @@ const CategoryDetail = () => {
       toast.error('Please select a date for booking.');
       return;
     }
+
+    // Validate the selected date is not in the past
+    const selectedDate = new Date(bookingDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      toast.error('Please select a future date for booking.');
+      return;
+    }
+
     try {
-      const bookingData = { categoryId: id, bookingDate };
+      const bookingData = {
+        categoryId: id,
+        bookingDate,
+        amount: category.price // Include the venue price
+      };
+      
       const response = await createBookingApi(bookingData);
+      
       if (response.data.success) {
-        toast.success('Booking confirmed. Payment should be made 5 days before the booked date, or it will get canceled.', {
-          autoClose: 3000,
+        toast.success(response.data.message || 'Booking confirmed successfully.', {
+          autoClose: 5000,
         });
+        // Optionally redirect to the bookings page
+        navigate('/book/bookeduser');
       } else {
-        toast.error(response.data.message, {
-          autoClose: 3000,
+        toast.error(response.data.message || 'Error creating booking.', {
+          autoClose: 5000,
         });
       }
     } catch (error) {
-      toast.error('Error creating booking.', {
-        autoClose: 3000,
+      console.error('Booking error:', error);
+      const errorMessage = error.response?.data?.message || 'Error creating booking. Please try again.';
+      toast.error(errorMessage, {
+        autoClose: 5000,
       });
     }
   };
@@ -118,7 +140,7 @@ const CategoryDetail = () => {
     <div className="category-detail">
       <div className="category-header">
         <img
-          src={`http://localhost:5500${category.photo}`}
+          src={`https://localhost:5500${category.photo}`}
           alt={category.name}
           className="category-image"
         />
