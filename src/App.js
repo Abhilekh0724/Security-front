@@ -22,6 +22,7 @@ import { HelmetProvider } from 'react-helmet-async';
 import { NavigationProvider } from './context/NavigationContext';
 import LoadingSpinner from './components/LoadingSpinner';
 import { useNavigation } from './context/NavigationContext';
+import UserLogs from "./pages/admin/UserLogs";
 
 const AppContent = () => {
   const { isLoading } = useNavigation();
@@ -53,6 +54,14 @@ const AppContent = () => {
           element={
             <ProtectedRoute requiredRole={ROLES.ADMIN}>
               <AdminCategoryList />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/logs"
+          element={
+            <ProtectedRoute requiredRole={ROLES.ADMIN}>
+              <UserLogs />
             </ProtectedRoute>
           }
         />

@@ -15,7 +15,7 @@ const HelmetConfig = () => {
                 img-src 'self' data: blob: https: http: *; 
                 script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://www.google.com https://www.gstatic.com; 
                 style-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; 
-                connect-src 'self' https://localhost:5500 https://localhost:3000; 
+                connect-src 'self' https://localhost:5500 https://localhost:3000 https://www.google.com https://www.gstatic.com https://*.google.com; 
                 font-src 'self' https://cdn.jsdelivr.net data:;
                 object-src 'none';
                 media-src 'self';

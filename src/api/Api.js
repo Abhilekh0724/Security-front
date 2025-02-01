@@ -29,6 +29,9 @@ Api.interceptors.request.use(
 // Login API
 export const loginUserApi = (data) => Api.post('/api/user/login', data);
 
+// Logout API
+export const logoutUserApi = () => Api.post('/api/user/logout');
+
 // Register API
 export const registerUserApi = (data) => Api.post('/api/user/create', data);
 
@@ -114,14 +117,24 @@ export const cancelBookingApi = (bookingId) => {
 export const deleteBookingApi = (bookingId) => {
   return Api.delete(`/api/book/delete/${bookingId}`);
 };
+
 // Get All Bookings (Admin only) API
 export const getAllBookingsApi = () => {
-  return Api.get('/api/book/all'); // Ensure this route is protected and requires admin privileges
+  return Api.get('/api/book/all');
 };
 
 // Create Payment API
 export const createPaymentApi = (paymentData) => {
   return Api.post('/api/payment/place', paymentData);
+};
+
+// User Logs APIs
+export const getUserLogsApi = (queryParams) => {
+  return Api.get('/api/admin/logs', { params: queryParams });
+};
+
+export const getUserLogStatsApi = () => {
+  return Api.get('/api/admin/logs/stats');
 };
 
 // Verify eSewa Payment API

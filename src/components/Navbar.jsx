@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faSignOutAlt, faSearch, faCalendarAlt, faHeart } from "@fortawesome/free-solid-svg-icons";
+import { logoutUserApi } from "../api/Api";
+import { toast } from "react-toastify";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 
@@ -13,9 +15,19 @@ const Navbar = () => {
 
   const showNavbar = location.pathname !== "/login" && location.pathname !== "/register";
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    navigate("/login");
+  const handleLogout = async () => {
+    try {
+      if (user) {
+        await logoutUserApi();
+      }
+    } catch (error) {
+      console.error('Logout error:', error);
+    } finally {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      toast.success('Logged out successfully');
+      navigate("/login");
+    }
   };
 
   const handleSearch = (e) => {
